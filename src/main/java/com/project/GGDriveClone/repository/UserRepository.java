@@ -1,4 +1,7 @@
 package com.project.GGDriveClone.repository;
 
-public interface UserRepository {
+import com.project.GGDriveClone.entity.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 }
