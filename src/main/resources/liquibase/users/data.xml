@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert_user" author="datlt">
+		<insert tableName="user">
+			<column name="email" value="admin" />
+			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
+			<column name="name" value="admin" />
+		</insert>
+    </changeSet>
+
+</databaseChangeLog>

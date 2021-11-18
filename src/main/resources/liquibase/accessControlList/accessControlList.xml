@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_table_accessControlList" author="datlt">
+        <createTable tableName="access_control_list">
+            <column name="aid" type="int(11)">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="uid" type="int">
+                <constraints nullable="false" foreignKeyName="fk_user_own_id" references="users(id)"/>
+            </column>
+            <column name="oid" type="int">
+                <constraints nullable="false" foreignKeyName="fk_object_id" references="objects(id)"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value="ENGINE=INNODB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_520_ci" />
+        </modifySql>
+    </changeSet>
+
+</databaseChangeLog>
