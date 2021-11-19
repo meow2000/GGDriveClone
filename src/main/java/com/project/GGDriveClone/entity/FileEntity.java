@@ -1,10 +1,13 @@
 package com.project.GGDriveClone.entity;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "objects")
+@Where(clause = "is_deleted=false")
 public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,18 +21,21 @@ public class FileEntity {
 
     private String path;
 
-    private Timestamp created_time;
+    private Timestamp createdTime;
 
-    private Timestamp updated_time;
+    private Timestamp updatedTime;
 
-    private boolean is_deleteted;
-    @Lob
-    private byte[] data;
+    private boolean isDeleteted;
 
-    public FileEntity(String name, String type, byte[] data) {
+    public FileEntity(Long size, String name, String type, String path) {
+        this.size = size;
         this.name = name;
         this.type = type;
-        this.data = data;
+        this.path = path;
+    }
+
+    public FileEntity() {
+
     }
 
     public Long getSize() {
@@ -72,27 +78,27 @@ public class FileEntity {
         this.path = path;
     }
 
-    public Timestamp getCreated_time() {
-        return created_time;
+    public Timestamp getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreated_time(Timestamp created_time) {
-        this.created_time = created_time;
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public Timestamp getUpdated_time() {
-        return updated_time;
+    public Timestamp getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdated_time(Timestamp updated_time) {
-        this.updated_time = updated_time;
+    public void setUpdatedTime(Timestamp updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
-    public boolean isIs_deleteted() {
-        return is_deleteted;
+    public boolean isDeleteted() {
+        return isDeleteted;
     }
 
-    public void setIs_deleteted(boolean is_deleteted) {
-        this.is_deleteted = is_deleteted;
+    public void setDeleteted(boolean deleteted) {
+        isDeleteted = deleteted;
     }
 }

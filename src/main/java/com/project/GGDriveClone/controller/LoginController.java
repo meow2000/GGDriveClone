@@ -1,4 +1,4 @@
 package com.project.GGDriveClone.controller;
 
-public class UserController {
+public class LoginController {
 }
