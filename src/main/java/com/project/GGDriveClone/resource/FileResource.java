@@ -3,21 +3,26 @@ package com.project.GGDriveClone.resource;
 import com.project.GGDriveClone.entity.FileEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.service.FileService;
+import com.project.GGDriveClone.ultil.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.ServletContext;
+import java.io.*;
 import java.util.List;
 
 @RestController
 public class FileResource {
+
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
@@ -44,8 +49,18 @@ public class FileResource {
         return fileService.findAllByUser(userEntity);
     }
 
-    @GetMapping("/downloadFile/{id}")
-    public void downloafFile(@RequestParam("id") Long id) {
-        fileService.findFile(id);
+    @GetMapping("/downloadFile")
+    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam(name = "filename") String fileName) throws IOException {
+
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, fileName);
+
+        File file = new File(FILE_DIRECTORY + "/" + fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                .contentType(mediaType)
+                .contentLength(file.length())
+                .body(resource);
     }
 }

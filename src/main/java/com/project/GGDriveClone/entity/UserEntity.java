@@ -3,7 +3,6 @@ package com.project.GGDriveClone.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -11,9 +10,9 @@ import java.util.Set;
 public class UserEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="access_control_list",
-            joinColumns = @JoinColumn(name="uid"),
-            inverseJoinColumns = @JoinColumn(name="oid"))
+    @JoinTable(name = "access_control_list",
+            joinColumns = @JoinColumn(name = "uid"),
+            inverseJoinColumns = @JoinColumn(name = "oid"))
     private Set<FileEntity> fileEntities = new HashSet<>();
 
     @Id
@@ -30,9 +29,16 @@ public class UserEntity {
 
     private Timestamp updated_time;
 
-    private  Timestamp last_login_at;
+    private Timestamp last_login_at;
 
     private boolean is_deleted;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -96,12 +102,5 @@ public class UserEntity {
 
     public void setIs_deleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
-    }
-
-    public UserEntity() {
-    }
-
-    public UserEntity(Long id) {
-        this.id = id;
     }
 }
