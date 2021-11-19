@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,10 @@ public class FileResource {
 
         return fileService.addFile(file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
 
+    }
+
+    @GetMapping("/downloadFile/{id}")
+    public void downloafFile(@RequestParam("id") Long id){
+        fileService.findFile(id);
     }
 }
