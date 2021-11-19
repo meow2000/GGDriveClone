@@ -4,11 +4,20 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "objects")
 @Where(clause = "is_deleted=false")
 public class FileEntity {
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "access_control_list",
+            joinColumns = @JoinColumn(name = "oid"),
+            inverseJoinColumns = @JoinColumn(name = "uid"))
+    private Set<UserEntity> userEntities = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +34,7 @@ public class FileEntity {
 
     private Timestamp updatedTime;
 
-    private boolean isDeleteted;
+    private boolean isDeleted;
 
     public FileEntity(Long size, String name, String type, String path) {
         this.size = size;
@@ -94,11 +103,11 @@ public class FileEntity {
         this.updatedTime = updatedTime;
     }
 
-    public boolean isDeleteted() {
-        return isDeleteted;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleteted(boolean deleteted) {
-        isDeleteted = deleteted;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

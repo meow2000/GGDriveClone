@@ -1,0 +1,46 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert_user" author="datlt">
+		<insert tableName="users">
+			<column name="email" value="admin1" />
+			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
+			<column name="name" value="admin1" />
+		</insert>
+		<insert tableName="users">
+			<column name="email" value="admin2" />
+			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
+			<column name="name" value="admin2" />
+		</insert>
+	</changeSet>
+	<changeSet id="insert_object" author="datlt">
+		<insert tableName="objects">
+			<column name="type" value="txt" />
+			<column name="path" value="/resource/"/>
+			<column name="name" value="1.txt" />
+			<column name="size" value="0" />
+		</insert>
+		<insert tableName="objects">
+			<column name="type" value="txt" />
+			<column name="path" value="/resource/"/>
+			<column name="name" value="2.txt" />
+			<column name="size" value="0" />
+		</insert>
+	</changeSet>
+	<changeSet id="insert_access_control_list" author="">
+		<insert tableName="access_control_list">
+			<column name="uid" value="1"/>
+			<column name="oid" value="2" />
+		</insert>
+		<insert tableName="access_control_list">
+			<column name="uid" value="1"/>
+			<column name="oid" value="1" />
+		</insert>
+		<insert tableName="access_control_list">
+			<column name="uid" value="2"/>
+			<column name="oid" value="1" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

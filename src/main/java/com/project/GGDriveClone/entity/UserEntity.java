@@ -2,10 +2,20 @@ package com.project.GGDriveClone.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class UserEntity {
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="access_control_list",
+            joinColumns = @JoinColumn(name="uid"),
+            inverseJoinColumns = @JoinColumn(name="oid"))
+    private Set<FileEntity> fileEntities = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,6 +25,14 @@ public class UserEntity {
     private String email;
 
     private String password;
+
+    private Timestamp created_time;
+
+    private Timestamp updated_time;
+
+    private  Timestamp last_login_at;
+
+    private boolean is_deleted;
 
     public Long getId() {
         return id;
@@ -72,19 +90,18 @@ public class UserEntity {
         this.last_login_at = last_login_at;
     }
 
-    public boolean isIs_deleteted() {
-        return is_deleteted;
+    public boolean isIs_deleted() {
+        return is_deleted;
     }
 
-    public void setIs_deleteted(boolean is_deleteted) {
-        this.is_deleteted = is_deleteted;
+    public void setIs_deleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
     }
 
-    private Timestamp created_time;
+    public UserEntity() {
+    }
 
-    private Timestamp updated_time;
-
-    private  Timestamp last_login_at;
-
-    private boolean is_deleteted;
+    public UserEntity(Long id) {
+        this.id = id;
+    }
 }

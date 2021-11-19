@@ -9,6 +9,6 @@
 	<include file="liquibase/subcriptions/subcriptions.xml"/>
 	<include file="liquibase/accessControlList/accessControlList.xml"/>
 
-<!--	<include file="liquibase/users/data.xml"/>-->
+	<include file="liquibase/data.xml"/>
 
 </databaseChangeLog>
