@@ -25,6 +25,8 @@ public class UserEntity {
 
     private String password;
 
+    private String role;
+
     private Timestamp created_time;
 
     private Timestamp updated_time;
@@ -38,6 +40,14 @@ public class UserEntity {
 
     public UserEntity(Long id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getId() {

@@ -12,7 +12,7 @@
             <column name="name" type="varchar(500)"/>
             <column name="email" type="varchar(500)"/>
             <column name="password" type="varchar(500)"/>
-
+            <column name="role" type="varchar(500)"/>
 			<column name="created_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
 			<column name="updated_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="last_login_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />

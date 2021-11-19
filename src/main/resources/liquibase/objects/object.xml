@@ -8,7 +8,9 @@
             <column name="id" type="int(11)" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-
+            <column name="uid" type="int">
+                <constraints nullable="false" foreignKeyName="fk_user_own_object" references="users(id)"/>
+            </column>
             <column name="name" type="varchar(500)"/>
             <column name="type" type="varchar(500)"/>
             <column name="path" type="varchar(500)"/>
