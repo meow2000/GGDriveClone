@@ -19,7 +19,7 @@ public class FileService {
         FileEntity fileEntity = new FileEntity(size, name, type, path);
         fileEntity.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
-        return fileEntity;
+        return fileRepository.save(fileEntity);
     }
 
     public FileEntity findFile(long id){
