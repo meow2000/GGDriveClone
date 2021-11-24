@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             System.out.println("sssss");
             Logger.info("Enable application security.");
             http.authorizeRequests()
-                    .antMatchers("/swagger-ui.html").hasRole(Role.ADMIN.getName())
+                    .antMatchers("/admin").hasRole(Role.ADMIN.getName())
                     .anyRequest()
                     .authenticated();
         } else{
@@ -51,10 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         http.formLogin()
-                .loginPage("/login")
+//                .loginPage("/login")
                 .permitAll()
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
+//                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/admin")
                 .usernameParameter("username")
                 .passwordParameter("password");
 

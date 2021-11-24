@@ -10,6 +10,7 @@ public class CustomUserDetails extends User {
     private static final long serialVersionUID = 1L;
     private Long userId;
     private String name;
+    private String role;
 
     public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, Long userId, String name) {
         super(username, password, authorities);
@@ -21,6 +22,14 @@ public class CustomUserDetails extends User {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.userId = userId;
         this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getUserId() {

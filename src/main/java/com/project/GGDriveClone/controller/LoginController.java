@@ -15,4 +15,7 @@ public class LoginController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/admin")
+    public String adminPage(){return "admin";}
 }

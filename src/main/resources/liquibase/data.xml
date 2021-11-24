@@ -6,13 +6,13 @@
     <changeSet id="insert_user" author="datlt">
 		<insert tableName="users">
 			<column name="email" value="admin1" />
-			<column name="role" value="admin" />
+			<column name="role" value="ADMIN" />
 			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
 			<column name="name" value="admin1" />
 		</insert>
 		<insert tableName="users">
 			<column name="email" value="admin2" />
-			<column name="role" value="user" />
+			<column name="role" value="USER" />
 			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
 			<column name="name" value="admin2" />
 		</insert>
