@@ -2,6 +2,7 @@ package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.entity.FileEntity;
 import com.project.GGDriveClone.entity.UserEntity;
+import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.FileService;
 import com.project.GGDriveClone.ultil.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +33,7 @@ public class FileResource {
     private FileService fileService;
 
     @PostMapping("/uploadFile")
-    public FileEntity fileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestParam("file") MultipartFile file) throws IOException {
 
         File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
         myFile.createNewFile();
@@ -39,7 +42,7 @@ public class FileResource {
         fos.write(file.getBytes());
         fos.close();
 
-        return fileService.addFile(file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
+        return fileService.addFile(currentUser.getUserId(),file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
 
     }
 
