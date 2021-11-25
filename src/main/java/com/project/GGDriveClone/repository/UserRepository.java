@@ -4,5 +4,6 @@ import com.project.GGDriveClone.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    public UserEntity findUserEntityByName(String username);
+    UserEntity findUserEntityByName(String username);
+    UserEntity findUserEntityById(Long id);
 }
