@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             System.out.println("sssss");
             Logger.info("Enable application security.");
             http.authorizeRequests()
-                    .antMatchers("/admin").hasRole(Role.ADMIN.getName())
+                    .antMatchers("/admin/**").hasRole(Role.ADMIN.getName())
                     .anyRequest()
                     .authenticated();
         } else{

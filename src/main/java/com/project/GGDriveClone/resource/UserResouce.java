@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/admin")
 public class UserResouce {
     @Autowired
     private UserService userService;
@@ -40,8 +41,9 @@ public class UserResouce {
         return "editUser";
     }
 
-    @RequestMapping(value = "save", method  = RequestMethod.POST)
+    @RequestMapping(value = "/save", method  = RequestMethod.POST)
     public String save(UserEntity user) {
+
         userService.saveUser(user);
         return "redirect:/";
     }
