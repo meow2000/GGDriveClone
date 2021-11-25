@@ -15,8 +15,8 @@ public class FileService {
     @Autowired
     FileRepository fileRepository;
 
-    public FileEntity addFile(Long size, String name, String type, String path){
-        FileEntity fileEntity = new FileEntity(size, name, type, path);
+    public FileEntity addFile(Long uid,Long size, String name, String type, String path){
+        FileEntity fileEntity = new FileEntity(uid, size, name, type, path);
         fileEntity.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         return fileRepository.save(fileEntity);

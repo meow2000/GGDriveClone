@@ -22,6 +22,8 @@ public class FileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long uid;
+
     private Long size;
 
     private String name;
@@ -36,7 +38,8 @@ public class FileEntity {
 
     private boolean isDeleted;
 
-    public FileEntity(Long size, String name, String type, String path) {
+    public FileEntity(Long uid, Long size, String name, String type, String path) {
+        this.uid = uid;
         this.size = size;
         this.name = name;
         this.type = type;
@@ -45,6 +48,14 @@ public class FileEntity {
 
     public FileEntity() {
 
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
     }
 
     public Long getSize() {
