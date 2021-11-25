@@ -1,16 +1,24 @@
 package com.project.GGDriveClone.service;
 
 import com.project.GGDriveClone.entity.UserEntity;
+import com.project.GGDriveClone.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
 
-public interface UserService {
-    List<UserEntity> getAllUser();
+    public UserEntity findUser(String username){
+        return userRepository.findUserEntityByName(username);
+    }
 
-    void saveUser(UserEntity user);
+    public UserEntity findById(Long id){
+        return userRepository.findUserEntityById(id);
+    }
 
-    void deleteUser(Long id);
-
-    Optional<UserEntity> findUserById(Long id);
+    public UserEntity findUserbyEmail(String email){
+        return userRepository.findUserEntityByName(email);
+    }
 }
