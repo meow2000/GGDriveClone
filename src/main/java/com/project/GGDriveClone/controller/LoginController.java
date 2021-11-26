@@ -11,11 +11,6 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping(value = "/")
-    public String index() {
-        return "index";
-    }
-
     @GetMapping("/admin")
     public String adminPage(){return "admin";}
 }
