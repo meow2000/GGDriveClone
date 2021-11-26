@@ -1,8 +1,10 @@
 package com.project.GGDriveClone.resource;
 
+import com.project.GGDriveClone.entity.AccessControlEntity;
 import com.project.GGDriveClone.entity.FileEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.security.CustomUserDetails;
+import com.project.GGDriveClone.service.AccessControlService;
 import com.project.GGDriveClone.service.FileService;
 import com.project.GGDriveClone.ultil.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.io.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class FileResource {
 
 
@@ -29,8 +32,12 @@ public class FileResource {
 
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
+
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private AccessControlService accessControlService;
 
     @PostMapping("/uploadFile")
     public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestParam("file") MultipartFile file) throws IOException {
@@ -65,5 +72,11 @@ public class FileResource {
                 .contentType(mediaType)
                 .contentLength(file.length())
                 .body(resource);
+    }
+
+    @PostMapping("/shareFile")
+    public AccessControlEntity shareFile(@RequestParam("user_id") Long uid, @RequestParam("object_id") Long oid){
+        AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
+        return accessControlService.addAccessControlEntity(accessControlEntity);
     }
 }
