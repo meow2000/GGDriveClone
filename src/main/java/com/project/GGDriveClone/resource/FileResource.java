@@ -53,10 +53,14 @@ public class FileResource {
 
     }
 
-    @GetMapping("/home")
-    public List<FileEntity> showAllFileByUser(@RequestParam("user_id") Long id) {
-        UserEntity userEntity = new UserEntity(id);
-        return fileService.findAllByUser(userEntity);
+    @GetMapping("/listFile")
+    public List<FileEntity> showAllFileByUserCreated(@RequestParam("user_id") Long uid) {
+        return fileService.findFilesByUser(uid);
+    }
+
+    @GetMapping("/shareWithMe")
+    public List<FileEntity> showAllFileSharedByUserID(@RequestParam("user_id") Long uid) {
+        return fileService.findFilesSharedByUser(uid);
     }
 
     @GetMapping("/downloadFile")

@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/libs/**", "/templates/**", "/js/**", "/icon/**", "/images/**", "/favicon.ico/**",
+        web.ignoring().antMatchers("/libs/**", "/templates/**", "/images/**", "/icon/**", "/images/**", "/favicon.ico/**",
                 "/webjars/springfox-swagger-ui/**", "/swagger-ui.html/**", "/swagger-resources/**", "/v1/api-docs", "/upload/**");
     }
 
@@ -61,4 +61,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
     }
 }
-K

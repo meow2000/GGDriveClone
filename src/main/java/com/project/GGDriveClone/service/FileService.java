@@ -23,9 +23,13 @@ public class FileService {
     }
 
     public FileEntity findFile(long id){
-        return fileRepository.findFileEntityById(id);
+        return fileRepository.findFileById(id);
     }
 
-    public List<FileEntity> findAllByUser(UserEntity userEntity) { return fileRepository.findFileEntitiesByUserEntitiesIs(userEntity);}
+    public List<FileEntity> findFilesByUser(Long uid) { return fileRepository.findFilesByUid(uid);}
 
+    public List<FileEntity> findFilesSharedByUser(Long uid){
+        UserEntity userEntity = new UserEntity(uid);
+        return fileRepository.findFileEntitiesByUserEntitiesIs(userEntity);
+    }
 }
