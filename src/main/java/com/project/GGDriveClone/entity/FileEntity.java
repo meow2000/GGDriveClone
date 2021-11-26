@@ -114,11 +114,11 @@ public class FileEntity {
         this.updatedTime = updatedTime;
     }
 
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 }

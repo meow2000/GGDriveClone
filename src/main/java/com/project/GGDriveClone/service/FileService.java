@@ -22,11 +22,20 @@ public class FileService {
         return fileRepository.save(fileEntity);
     }
 
+    public FileEntity moveToTrash(Long oid){
+        FileEntity fileEntity = findFile(oid);
+        fileEntity.setIsDeleted(true);
+        fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+        return fileRepository.save(fileEntity);
+    }
+
     public FileEntity findFile(long id){
         return fileRepository.findFileById(id);
     }
 
-    public List<FileEntity> findFilesByUser(Long uid) { return fileRepository.findFilesByUid(uid);}
+    public List<FileEntity> findFilesByUser(Long uid) { return fileRepository.findFilesByUidAndIsDeletedFalse(uid);}
+
+    public List<FileEntity> findFilesDeletedByUser(Long uid) { return fileRepository.findFilesByUidAndIsDeletedTrue(uid);}
 
     public List<FileEntity> findFilesSharedByUser(Long uid){
         UserEntity userEntity = new UserEntity(uid);

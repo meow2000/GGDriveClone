@@ -39,6 +39,7 @@ public class FileResource {
     @Autowired
     private AccessControlService accessControlService;
 
+    //Upload new file with request param MultipartFile
     @PostMapping("/uploadFile")
     public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestParam("file") MultipartFile file) throws IOException {
 
@@ -53,16 +54,7 @@ public class FileResource {
 
     }
 
-    @GetMapping("/listFile")
-    public List<FileEntity> showAllFileByUserCreated(@RequestParam("user_id") Long uid) {
-        return fileService.findFilesByUser(uid);
-    }
-
-    @GetMapping("/shareWithMe")
-    public List<FileEntity> showAllFileSharedByUserID(@RequestParam("user_id") Long uid) {
-        return fileService.findFilesSharedByUser(uid);
-    }
-
+    // Download file with request param String = filename
     @GetMapping("/downloadFile")
     public ResponseEntity<InputStreamResource> downloadFile(@RequestParam(name = "filename") String fileName) throws IOException {
 
@@ -78,9 +70,34 @@ public class FileResource {
                 .body(resource);
     }
 
+    // Share file with other user use other_user_id and object_id
     @PostMapping("/shareFile")
     public AccessControlEntity shareFile(@RequestParam("user_id") Long uid, @RequestParam("object_id") Long oid){
         AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
         return accessControlService.addAccessControlEntity(accessControlEntity);
+    }
+
+    // List file created by current user
+    @GetMapping("/listFile")
+    public List<FileEntity> showAllFileByUserCreated(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        return fileService.findFilesByUser(currentUser.getUserId());
+    }
+
+    // List file deleted by current user
+    @GetMapping("/trash")
+    public List<FileEntity> showAllFileDeletedByUserCreated(@RequestParam("user_id") Long uid) {
+        return fileService.findFilesDeletedByUser(uid);
+    }
+
+    // List file shared with current user
+    @GetMapping("/shareWithMe")
+    public List<FileEntity> showAllFileSharedByUserID(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        return fileService.findFilesSharedByUser(currentUser.getUserId());
+    }
+
+    // Delete file (Move to trash)
+    @DeleteMapping("/deleteFile")
+    public FileEntity moveFileToTrash(@RequestParam("object_id") Long oid){
+        return fileService.moveToTrash(oid);
     }
 }

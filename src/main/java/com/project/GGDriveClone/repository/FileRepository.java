@@ -12,7 +12,9 @@ public interface FileRepository extends JpaRepository<FileEntity, Long> {
 
     FileEntity findFileById(Long id);
 
-    List<FileEntity> findFilesByUid(Long uid);
+    List<FileEntity> findFilesByUidAndIsDeletedTrue(Long uid);
+
+    List<FileEntity> findFilesByUidAndIsDeletedFalse(Long uid);
 
     FileEntity findFileEntityByName(String name);
 
