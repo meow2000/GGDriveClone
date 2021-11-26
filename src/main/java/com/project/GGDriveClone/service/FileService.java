@@ -24,6 +24,10 @@ public class FileService {
 
     public FileEntity moveToTrash(Long oid){
         FileEntity fileEntity = findFile(oid);
+        if(fileEntity.getIsDeleted() == false){
+            System.out.println("This file has been deleted!\n");
+            return null;
+        }
         fileEntity.setIsDeleted(true);
         fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         return fileRepository.save(fileEntity);
