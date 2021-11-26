@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if(enableSecurity){
-            System.out.println("sssss");
+            System.out.println("sssssssss");
             Logger.info("Enable application security.");
             http.authorizeRequests()
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.getName())
