@@ -2,7 +2,7 @@ package com.project.GGDriveClone.enums;
 
 public enum Role {
 
-    ADMIN("ADMIN"), COMPANY_ADMIN("COMPANY_ADMIN"), COMPANY_USER("COMPANY_USER");;
+    ADMIN("ADMIN"), USER("USER");;
 
     private String name;
 
@@ -14,7 +14,7 @@ public enum Role {
         this.name = name;
     }
 
-    private Role(String name) {
+    Role(String name) {
         this.name = name;
     }
 

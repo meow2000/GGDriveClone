@@ -26,9 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private Logger Logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/libs/**", "/templates/**", "/images/**", "/icon/**", "/images/**", "/favicon.ico/**",
-                "/webjars/springfox-swagger-ui/**", "/swagger-ui.html/**", "/swagger-resources/**", "/v1/api-docs", "/upload/**");
+    public void configure(WebSecurity web){
+        web.ignoring().antMatchers("/static/**", "/templates/**", "/js/**", "/icon/**", "/images/**", "/favicon.ico/**",
+                "/webjars/springfox-swagger-ui/**", "/swagger-ui.html/**", "/swagger-resources/**", "/v1/api-docs");
     }
 
     @Override
@@ -39,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if(enableSecurity){
-            System.out.println("sssssssss");
             Logger.info("Enable application security.");
             http.authorizeRequests()
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.getName())
