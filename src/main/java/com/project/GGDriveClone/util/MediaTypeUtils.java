@@ -1,4 +1,4 @@
-package com.project.GGDriveClone.ultil;
+package com.project.GGDriveClone.util;
 
 import javax.servlet.ServletContext;
 

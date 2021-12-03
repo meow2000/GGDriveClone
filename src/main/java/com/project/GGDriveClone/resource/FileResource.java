@@ -2,18 +2,16 @@ package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.entity.AccessControlEntity;
 import com.project.GGDriveClone.entity.FileEntity;
-import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.AccessControlService;
 import com.project.GGDriveClone.service.FileService;
-import com.project.GGDriveClone.ultil.MediaTypeUtils;
+import com.project.GGDriveClone.util.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
@@ -85,8 +83,8 @@ public class FileResource {
 
     // List file deleted by current user
     @GetMapping("/trash")
-    public List<FileEntity> showAllFileDeletedByUserCreated(@RequestParam("user_id") Long uid) {
-        return fileService.findFilesDeletedByUser(uid);
+    public List<FileEntity> showAllFileDeletedByUserCreated(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        return fileService.findFilesDeletedByUser(currentUser.getUserId());
     }
 
     // List file shared with current user
