@@ -1,5 +1,6 @@
 package com.project.GGDriveClone.security;
 
+import java.util.List;
 import com.project.GGDriveClone.enums.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 @Configuration
@@ -49,14 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.authorizeRequests().anyRequest().permitAll();
         }
 
+        http.cors().configurationSource(request -> {
+            CorsConfiguration cors = new CorsConfiguration();
+            cors.setAllowedOrigins(List.of("http://localhost:3000"));
+            cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
+            cors.setAllowedHeaders(List.of("*"));
+            return cors;
+        });
+
         http.formLogin()
 //                .loginPage("/login")
                 .permitAll()
 //                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/admin")
+                .defaultSuccessUrl("/user")
                 .usernameParameter("username")
                 .passwordParameter("password");
 
-        http.csrf().disable();
+        http.cors();
+//        http.csrf();
     }
 }
