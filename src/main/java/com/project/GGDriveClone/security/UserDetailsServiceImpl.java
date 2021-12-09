@@ -31,5 +31,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userDetails;
     }
 
+    public UserDetails loadUserByUserId(Long userId){
+        UserEntity user = userService.findUser(userId);
+        if (user == null) {
+            throw new UsernameNotFoundException("Cannot find user with id:" + userId);
+        }
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+        CustomUserDetails userDetails = new CustomUserDetails(user.getName(), user.getPassword(), authorities, userId, user.getEmail());
+
+        return userDetails;
+    }
 }
 

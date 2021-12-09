@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findUserEntityByName(String username);
 
+    UserEntity findUserEntityById(Long uid);
+
     Page<UserEntity> findAll(Specification<UserEntity> specs, Pageable pageable);
 
 }
