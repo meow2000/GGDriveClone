@@ -2,9 +2,11 @@ package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.entity.AccessControlEntity;
 import com.project.GGDriveClone.entity.FileEntity;
+import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.AccessControlService;
 import com.project.GGDriveClone.service.FileService;
+import com.project.GGDriveClone.service.UserService;
 import com.project.GGDriveClone.util.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,10 +34,16 @@ public class FileResource {
     String FILE_DIRECTORY;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private FileService fileService;
 
     @Autowired
     private AccessControlService accessControlService;
+
+    @PostMapping("/createFolder")
+    public String createFolder(@RequestBody String folderName){ return FILE_DIRECTORY+ folderName+ "/";}
 
     //Upload new file with request param MultipartFile
     @PostMapping("/uploadFile")
@@ -47,6 +55,11 @@ public class FileResource {
         FileOutputStream fos = new FileOutputStream(myFile);
         fos.write(file.getBytes());
         fos.close();
+
+        // Update storage when add a new File
+        UserEntity userEntity = userService.findUser(currentUser.getUserId());
+        userEntity.setStorage(userEntity.getStorage() + file.getSize());
+        userService.saveUser(userEntity);
 
         return fileService.addFile(currentUser.getUserId(),file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
 

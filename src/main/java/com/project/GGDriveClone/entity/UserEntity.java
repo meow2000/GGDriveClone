@@ -35,11 +35,21 @@ public class UserEntity {
 
     private boolean is_deleted;
 
+    private Long storage;
+
     public UserEntity() {
     }
 
     public UserEntity(Long id) {
         this.id = id;
+    }
+
+    public Long getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Long storage) {
+        this.storage = storage;
     }
 
     public String getRole() {
