@@ -3,54 +3,60 @@ package com.project.GGDriveClone.resource;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
-
 @Controller
-@RequestMapping("/admin")
 public class UserResouce {
+
     @Autowired
-    private UserService userService;
+    private UserService service;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
-        List<UserEntity> users = userService.getAllUser();
-
-        model.addAttribute("users", users);
-
+    @GetMapping("")
+    public String viewHomePage() {
         return "index";
     }
 
-    @RequestMapping(value = "/add")
-    public String addUser(Model model) {
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
         model.addAttribute("user", new UserEntity());
-        return "addUser";
+
+        return "signup_form";
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editUser(@RequestParam("id") Long userId, Model model) {
-        Optional<UserEntity> userEdit = userService.findUserById(userId);
-        userEdit.ifPresent(user -> model.addAttribute("user", user));
-        return "editUser";
+    @PostMapping("/process_register")
+    public String processRegister(UserEntity user, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
+        service.register(user, getSiteURL(request));
+        return "register_success";
     }
 
-    @RequestMapping(value = "/save", method  = RequestMethod.POST)
-    public String save(UserEntity user) {
+//    @GetMapping("/users")
+//    public String listUsers(Model model) {
+//        List<UserEntity> listUsers = service.listAll();
+//        model.addAttribute("listUsers", listUsers);
+//
+//        return "users";
+//    }
 
-        userService.saveUser(user);
-        return "redirect:/";
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam("id") Long userId, Model model) {
-        userService.deleteUser(userId);
-        return "redirect:/";
+    @GetMapping("/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (service.verify(code)) {
+            return "verify_success";
+        } else {
+            return "verify_fail";
+        }
     }
 }

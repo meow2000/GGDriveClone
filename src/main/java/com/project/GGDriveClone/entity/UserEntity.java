@@ -25,6 +25,11 @@ public class UserEntity {
 
     private String password;
 
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    private boolean enabled;
+
     private String role;
 
     private Timestamp created_time;
@@ -80,6 +85,30 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<FileEntity> getFileEntities() {
+        return fileEntities;
+    }
+
+    public void setFileEntities(Set<FileEntity> fileEntities) {
+        this.fileEntities = fileEntities;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Timestamp getCreated_time() {
