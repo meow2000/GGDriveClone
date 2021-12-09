@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findUserEntityByName(String username);
 
+    UserEntity findUserEntityById(Long uid);
+
     Page<UserEntity> findAll(Specification<UserEntity> specs, Pageable pageable);
 
     @Query("SELECT u FROM UserEntity u WHERE u.email = ?1")

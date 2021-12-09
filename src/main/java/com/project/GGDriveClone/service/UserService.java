@@ -4,9 +4,11 @@ import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 
@@ -32,10 +34,7 @@ public class UserService {
         return userRepository.findUserEntityByName(username);
     }
 
-
-    public UserEntity findUserbyEmail(String email){
-        return userRepository.findUserEntityByName(email);
-    }
+    public UserEntity findUser(Long uid){ return userRepository.findUserEntityById(uid);}
 
     public List<UserEntity> getAllUser() {
         return userRepository.findAll();
