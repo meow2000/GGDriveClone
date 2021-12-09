@@ -118,29 +118,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/login").permitAll()
                     .anyRequest()
                     .authenticated();
+
+            http.cors().configurationSource(request -> {
+                CorsConfiguration cors = new CorsConfiguration();
+                cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                cors.setAllowedHeaders(List.of("*"));
+                return cors;
+            });
+
+            http.formLogin()
+                    .permitAll()
+                    .defaultSuccessUrl("/admin/")
+                    .usernameParameter("username")
+                    .passwordParameter("password");
+
+            http.csrf().disable();
+
+            // Thêm một lớp Filter kiểm tra jwt
+            http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         } else {
             Logger.info("Disable application security.");
             http.authorizeRequests().anyRequest().permitAll();
         }
 
-        http.cors().configurationSource(request -> {
-            CorsConfiguration cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("http://localhost:3000"));
-            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(List.of("*"));
-            return cors;
-        });
-
-        http.formLogin()
-                .permitAll()
-                .defaultSuccessUrl("/admin/")
-                .usernameParameter("username")
-                .passwordParameter("password");
-
-        http.csrf().disable();
-
-        // Thêm một lớp Filter kiểm tra jwt
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
 //   http.authorizeRequests()

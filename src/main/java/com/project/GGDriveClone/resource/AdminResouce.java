@@ -1,36 +1,38 @@
 package com.project.GGDriveClone.resource;
 
-import com.project.GGDriveClone.entity.UserEntity;
-import com.project.GGDriveClone.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+        import com.project.GGDriveClone.entity.UserEntity;
+        import com.project.GGDriveClone.service.UserService;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.ui.Model;
+        import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+        import java.util.List;
+        import java.util.Optional;
+        import java.util.concurrent.CopyOnWriteArrayList;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminResouce {
     @Autowired
     private UserService userService;
+    private List<UserEntity> userList = new CopyOnWriteArrayList<>();
+
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
+    public List<UserEntity> index() {
         List<UserEntity> users = userService.getAllUser();
-
-        model.addAttribute("users", users);
-
-        return "homeAdmin";
+        return users;
     }
 
-    @RequestMapping(value = "/add")
-    public String addUser(Model model) {
-        model.addAttribute("user", new UserEntity());
-        return "addUser";
+    @PostMapping(value = "/add")
+    public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity user) {
+
+        userList.add(user);
+        // Trả về response với STATUS CODE = 200 (OK)
+        // Body sẽ chứa thông tin về đối tượng user vừa được tạo.
+        return ResponseEntity.ok().body(user);
     }
 
 
