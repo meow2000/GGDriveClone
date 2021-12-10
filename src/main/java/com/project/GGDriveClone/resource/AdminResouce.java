@@ -37,7 +37,7 @@ public class AdminResouce {
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editUser(@RequestParam("id") Long userId, Model model) {
+    public String editUser(@RequestBody Long userId, Model model) {
         Optional<UserEntity> userEdit = userService.findUserById(userId);
         userEdit.ifPresent(user -> model.addAttribute("user", user));
         return "editUser";
@@ -51,7 +51,7 @@ public class AdminResouce {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam("id") Long userId, Model model) {
+    public String deleteUser(@RequestBody Long userId, Model model) {
         userService.deleteUser(userId);
         return "redirect:/";
     }

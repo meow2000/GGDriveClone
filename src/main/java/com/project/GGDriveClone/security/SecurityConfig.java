@@ -46,11 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 //    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
 //        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 //        authProvider.setUserDetailsService(userDetailsService());
@@ -78,30 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
 
-    //    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().anyRequest().permitAll();
-//        if(enableSecurity){
-//            Logger.info("Enable application security.");
-//            http.authorizeRequests()
-//                    .antMatchers("/admin/**").hasRole(Role.ADMIN.getName())
-//                    .anyRequest()
-//                    .authenticated();
-//        } else{
-//            Logger.info("Disable application security.");
-//            http.authorizeRequests().anyRequest().permitAll();
-//        }
-//
-//        http.formLogin()
-////                .loginPage("/login")
-//                .permitAll()
-////                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/admin")
-//                .usernameParameter("username")
-//                .passwordParameter("password");
-//
-//        http.csrf().disable();
-//    }
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/**", "/templates/**", "/js/**", "/icon/**", "/images/**", "/favicon.ico/**",
@@ -129,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             http.formLogin()
                     .permitAll()
-                    .defaultSuccessUrl("/admin/")
+                    .defaultSuccessUrl("/swagger-ui.html")
                     .usernameParameter("username")
                     .passwordParameter("password");
 
@@ -144,13 +116,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 }
-//   http.authorizeRequests()
-//           .antMatchers("").authenticated()
-//           .anyRequest().permitAll()
-//           .and()
-//           .formLogin()
-//           .usernameParameter("email")
-//           .defaultSuccessUrl("/")
-//           .permitAll()
-//           .and()
-//           .logout().logoutSuccessUrl("/").permitAll();

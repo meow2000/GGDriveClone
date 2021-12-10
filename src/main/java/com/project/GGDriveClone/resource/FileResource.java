@@ -47,7 +47,7 @@ public class FileResource {
 
     //Upload new file with request param MultipartFile
     @PostMapping("/uploadFile")
-    public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestParam("file") MultipartFile file) throws IOException {
+    public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestBody MultipartFile file) throws IOException {
 
         File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
         myFile.createNewFile();
@@ -67,7 +67,7 @@ public class FileResource {
 
     // Download file with request param String = filename
     @GetMapping("/downloadFile")
-    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam(name = "filename") String fileName) throws IOException {
+    public ResponseEntity<InputStreamResource> downloadFile(@RequestBody String fileName) throws IOException {
 
         MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, fileName);
 
@@ -83,7 +83,7 @@ public class FileResource {
 
     // Share file with other user use other_user_id and object_id
     @PostMapping("/shareFile")
-    public AccessControlEntity shareFile(@RequestParam("user_id") Long uid, @RequestParam("object_id") Long oid){
+    public AccessControlEntity shareFile(@RequestBody Long uid, @RequestBody Long oid){
         AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
         return accessControlService.addAccessControlEntity(accessControlEntity);
     }
@@ -108,7 +108,7 @@ public class FileResource {
 
     // Delete file (Move to trash)
     @DeleteMapping("/deleteFile")
-    public FileEntity moveFileToTrash(@RequestParam("object_id") Long oid){
+    public FileEntity moveFileToTrash(@RequestBody Long oid){
         return fileService.moveToTrash(oid);
     }
 }

@@ -7,10 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +19,7 @@ public class LoginAPI {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestParam String username, @RequestParam String password) {
+    public String authenticateUser(@RequestBody String username, @RequestBody String password) {
 
         // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
