@@ -35,4 +35,8 @@ public class UserResource {
         return siteURL.replace(request.getServletPath(), "");
     }
 
+    @GetMapping("/verify")
+    public boolean verifyUser(@Param("code") String code) {
+        return service.verify(code);
+    }
 }

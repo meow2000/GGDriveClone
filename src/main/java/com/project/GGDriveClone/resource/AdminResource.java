@@ -4,6 +4,7 @@ import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,12 @@ public class AdminResource {
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
+
+
+    @GetMapping("/verify")
+    public boolean verifyUser(@Param("code") String code) {
+        return userService.verify(code);
+    }
+
 
 }
