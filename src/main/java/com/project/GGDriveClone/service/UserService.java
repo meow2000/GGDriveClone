@@ -44,6 +44,7 @@ public class UserService {
     public void saveUser(UserEntity user) {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
+        user.setRole("USER");
         userRepository.save(user);
     }
 
@@ -78,13 +79,13 @@ public class UserService {
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "daivip014@gmail.com";
-        String senderName = "Group 11";
+        String senderName = "Group 2";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
                 + "Please click the link below to verify your registration:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
                 + "Thank you,<br>"
-                + "Group 11.";
+                + "Group 2.";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -112,7 +113,6 @@ public class UserService {
             userRepository.save(user);
             return true;
         }
-
     }
 
 }
