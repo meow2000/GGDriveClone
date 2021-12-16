@@ -38,6 +38,12 @@ public class AdminResource {
         return ResponseEntity.ok(user);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteTodo(@PathVariable(name = "id") Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(
