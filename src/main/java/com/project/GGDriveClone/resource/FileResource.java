@@ -67,7 +67,7 @@ public class FileResource {
 
     // Download file with request param String = filename
     @GetMapping("/downloadFile")
-    public ResponseEntity<InputStreamResource> downloadFile(@RequestBody String fileName) throws IOException {
+    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam String fileName) throws IOException {
 
         MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, fileName);
 
@@ -83,7 +83,7 @@ public class FileResource {
 
     // Share file with other user use other_user_id and object_id
     @PostMapping("/shareFile")
-    public AccessControlEntity shareFile(@RequestBody Long uid, @RequestBody Long oid){
+    public AccessControlEntity shareFile(@RequestParam Long uid, @RequestParam Long oid){
         AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
         return accessControlService.addAccessControlEntity(accessControlEntity);
     }
@@ -107,8 +107,8 @@ public class FileResource {
     }
 
     // Delete file (Move to trash)
-    @DeleteMapping("/deleteFile")
-    public FileEntity moveFileToTrash(@RequestBody Long oid){
+    @GetMapping("/deleteFile")
+    public FileEntity moveFileToTrash(@RequestParam Long oid){
         return fileService.moveToTrash(oid);
     }
 }

@@ -24,7 +24,7 @@ public class FileService {
 
     public FileEntity moveToTrash(Long oid){
         FileEntity fileEntity = findFile(oid);
-        if(fileEntity.getIsDeleted() == false){
+        if(fileEntity.getIsDeleted() == true){
             System.out.println("This file has been deleted!\n");
             return null;
         }

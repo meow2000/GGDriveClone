@@ -34,8 +34,6 @@ public class LoginAPI {
     @PostMapping("/login")
     public String authenticateUser(@RequestBody LoginRequest loginRequest) {
 
-        System.out.println(loginRequest);
-
         // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
