@@ -1,4 +1,5 @@
 package com.project.GGDriveClone.security;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,8 @@ import java.io.IOException;
 @Component
 public class ApiAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private RequestCache requestCache = new HttpSessionRequestCache();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiAuthenticationSuccessHandler.class);
+    private RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
