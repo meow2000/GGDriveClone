@@ -45,6 +45,7 @@ public class UserService {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
         user.setRole("USER");
+        user.setEnabled(true);
         userRepository.save(user);
     }
 
@@ -78,7 +79,7 @@ public class UserService {
     private void sendVerificationEmail(UserEntity user, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
-        String fromAddress = "daivip014@gmail.com";
+        String fromAddress = "testmail.hust@gmail.com\n" ;
         String senderName = "Group 2";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
@@ -94,7 +95,7 @@ public class UserService {
         helper.setTo(toAddress);
         helper.setSubject(subject);
         content = content.replace("[[name]]", user.getName());
-        String verifyURL = siteURL + "/verify?code=" + user.getVerificationCode();
+        String verifyURL = siteURL + "/api/verify?code=" + user.getVerificationCode();
         content = content.replace("[[URL]]", verifyURL);
         helper.setText(content, true);
 
