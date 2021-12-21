@@ -2,7 +2,7 @@ package com.project.GGDriveClone.security;
 
 import com.project.GGDriveClone.enums.Role;
 import com.project.GGDriveClone.jwt.JwtAuthenticationFilter;
-import com.project.GGDriveClone.service.CustomUserDetailsService;
+//import com.project.GGDriveClone.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
+//        return new CustomUserDetailsService();
+        return new UserDetailsServiceImpl();
     }
-
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService());
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//
-//        return authProvider;
-//    }
-
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -115,20 +106,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/").authenticated()
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .usernameParameter("email")
-//                .defaultSuccessUrl("/coming_soon")
-//                .permitAll()
-//                .and()
-//                .logout().logoutSuccessUrl("/").permitAll();
-//    }
-//}
 
 }
