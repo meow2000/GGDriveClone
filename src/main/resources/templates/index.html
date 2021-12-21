@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Welcome to CodeJava Home</title>
-	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<meta charset="UTF-8">
+	<meta http-equiv="refresh" content="0; url=http://example.com">
+	<script type="text/javascript">
+		window.location.href = "http://localhost:8080/swagger-ui.html"
+	</script>
+	<title>Page Redirection</title>
 </head>
 <body>
-	<div class="container text-center">
-		<h1>Welcome to CodeJava.net</h1>
-		<h3><a th:href="@{/register}">Register</a></h3>
-		<h3><a th:href="@{/login}">Login</a></h3>
-	</div>
-	
+	<!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
+	If you are not redirected automatically, follow this <a href='http://example.com'>link to example</a>.
 </body>
 </html>

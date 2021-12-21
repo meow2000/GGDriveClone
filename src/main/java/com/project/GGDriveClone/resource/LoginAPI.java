@@ -1,5 +1,6 @@
 package com.project.GGDriveClone.resource;
 
+import com.project.GGDriveClone.DTO.LoginRequest;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ public class LoginAPI {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody String username, @RequestBody String password) {
+    public String authenticateUser(@RequestBody LoginRequest loginRequest) {
+
+        System.out.println(loginRequest);
 
         // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
         // Nếu không xảy ra exception tức là thông tin hợp lệ
