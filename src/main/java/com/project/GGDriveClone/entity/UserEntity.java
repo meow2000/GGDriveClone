@@ -1,5 +1,7 @@
 package com.project.GGDriveClone.entity;
 
+import com.project.GGDriveClone.entity.plans.PlanEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -32,11 +34,9 @@ public class UserEntity {
 
     private String role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pid", referencedColumnName = "id", table = "plans")
-
-
-    private int pid;
+    @OneToOne
+    @JoinColumn(name = "pid" , referencedColumnName = "id")
+    private PlanEntity plan;
 
     private Timestamp created_time;
 
@@ -51,20 +51,20 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public PlanEntity getPlan() {
+        return plan;
+    }
+
+    public void setPlan(PlanEntity plan) {
+        this.plan = plan;
+    }
+
     public UserEntity(Long id) {
         this.id = id;
     }
 
     public Long getStorage() {
         return storage;
-    }
-
-    public int getPid() {
-        return pid;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
     }
 
     public void setStorage(Long storage) {

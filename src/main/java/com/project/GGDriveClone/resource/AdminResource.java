@@ -1,6 +1,7 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.entity.UserEntity;
+import com.project.GGDriveClone.entity.plans.PlanEntity;
 import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ public class AdminResource {
 
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
-        user.setPid(1);
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
@@ -61,12 +61,11 @@ public class AdminResource {
     @PutMapping("/plan")
     public UserEntity updatePlan( @RequestParam(name="pid") int pid, @RequestParam(name = "id") long id) {
         UserEntity user = userService.findUser(id);
-        user.setPid(pid);
+        PlanEntity plan = userService.findPlan(pid);
+        user.setPlan(plan);
         userService.saveUser(user);
         return user;
     }
-
-
 
 
     @GetMapping("/verify")
