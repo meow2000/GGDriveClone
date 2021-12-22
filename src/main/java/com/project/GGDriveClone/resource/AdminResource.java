@@ -34,6 +34,7 @@ public class AdminResource {
 
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
+        user.setPid(1);
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
@@ -56,6 +57,16 @@ public class AdminResource {
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
+
+    @PutMapping("/plan")
+    public UserEntity updatePlan( @RequestParam(name="pid") int pid, @RequestParam(name = "id") long id) {
+        UserEntity user = userService.findUser(id);
+        user.setPid(pid);
+        userService.saveUser(user);
+        return user;
+    }
+
+
 
 
     @GetMapping("/verify")

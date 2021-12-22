@@ -8,7 +8,6 @@
             <column name="id" type="int(11)" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-
             <column name="name" type="varchar(500)"/>
             <column name="cost" type="int(11)"/>
             <column name="max_storage" type="int(11)" defaultValue=""/>

@@ -32,6 +32,12 @@ public class UserEntity {
 
     private String role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pid", referencedColumnName = "id", table = "plans")
+
+
+    private int pid;
+
     private Timestamp created_time;
 
     private Timestamp updated_time;
@@ -51,6 +57,14 @@ public class UserEntity {
 
     public Long getStorage() {
         return storage;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 
     public void setStorage(Long storage) {

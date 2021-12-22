@@ -71,6 +71,7 @@ public class UserService {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
         user.setRole("USER");
+        user.setPid(1);
         userRepository.save(user);
         sendVerificationEmail(user, siteURL);
     }
