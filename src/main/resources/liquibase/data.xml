@@ -33,7 +33,7 @@
 			<column name="uid" value="2" />
 		</insert>
 	</changeSet>
-	<changeSet id="insert_access_control_list" author="">
+	<changeSet id="insert_access_control_list" author="datlt">
 		<insert tableName="access_control_list">
 			<column name="uid" value="1"/>
 			<column name="oid" value="2" />
@@ -45,6 +45,23 @@
 		<insert tableName="access_control_list">
 			<column name="uid" value="2"/>
 			<column name="oid" value="1" />
+		</insert>
+	</changeSet>
+	<changeSet id="insert_plans" author="datlt">
+		<insert tableName="plans">
+			<column name="name" value="10MB"/>
+			<column name="cost" value="100" />
+			<column name="max_storage" value="20971520"/>
+		</insert>
+		<insert tableName="plans">
+			<column name="name" value="50MB"/>
+			<column name="cost" value="500" />
+			<column name="max_storage" value="52428800"/>
+		</insert>
+		<insert tableName="plans">
+			<column name="name" value="100MB"/>
+			<column name="cost" value="1000" />
+			<column name="max_storage" value="104857600"/>
 		</insert>
 	</changeSet>
 </databaseChangeLog>

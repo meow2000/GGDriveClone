@@ -20,6 +20,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    public static void main(String[] args) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        System.out.println(bCryptPasswordEncoder.encode("hedspi2a"));
+        System.out.println(bCryptPasswordEncoder.matches("hedspi2a", "$2a$10$aCX7m45HKrJ/6jWiCgAGIulBV2iE3CELTrTEeF3ir08Ft3sOOLi9y"));
+    }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -40,11 +46,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    public static void main(String[] args) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("hedspi2a"));
-        System.out.println(bCryptPasswordEncoder.matches("hedspi2a", "$2a$10$aCX7m45HKrJ/6jWiCgAGIulBV2iE3CELTrTEeF3ir08Ft3sOOLi9y"));
     }
 }

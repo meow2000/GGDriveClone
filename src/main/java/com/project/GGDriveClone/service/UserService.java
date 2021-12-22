@@ -4,13 +4,10 @@ import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
-
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,11 +27,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserEntity findUser(String username){
+    public UserEntity findUser(String username) {
         return userRepository.findUserEntityByName(username);
     }
 
-    public UserEntity findUser(Long uid){ return userRepository.findUserEntityById(uid);}
+    public UserEntity findUser(Long uid) {
+        return userRepository.findUserEntityById(uid);
+    }
 
     public List<UserEntity> getAllUser() {
         return userRepository.findAll();
@@ -79,7 +78,7 @@ public class UserService {
     private void sendVerificationEmail(UserEntity user, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
-        String fromAddress = "testmail.hust@gmail.com\n" ;
+        String fromAddress = "testmail.hust@gmail.com\n";
         String senderName = "Group 2";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"

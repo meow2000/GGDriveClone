@@ -14,17 +14,17 @@ public class AccessControlService {
     @Autowired
     AccessControlRepository accessControlRepository;
 
-    public AccessControlEntity addAccessControlEntity(AccessControlEntity accessControlEntity){
+    public AccessControlEntity addAccessControlEntity(AccessControlEntity accessControlEntity) {
         accessControlEntity.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         accessControlEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         return accessControlRepository.save(accessControlEntity);
     }
 
-    public List<AccessControlEntity> findAllByUid(Long uid){
+    public List<AccessControlEntity> findAllByUid(Long uid) {
         return accessControlRepository.findAllByUid(uid);
     }
 
-    public List<AccessControlEntity> findAllByOid(Long oid){
-        return  accessControlRepository.findAllByOid(oid);
+    public List<AccessControlEntity> findAllByOid(Long oid) {
+        return accessControlRepository.findAllByOid(oid);
     }
 }
