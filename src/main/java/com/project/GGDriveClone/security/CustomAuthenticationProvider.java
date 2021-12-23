@@ -1,5 +1,6 @@
 package com.project.GGDriveClone.security;
 
+import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -30,13 +34,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
+        boolean isEnable = userService.findUser(username).isEnabled();
         CustomUserDetails userDetails;
         try {
             userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+            System.out.println(userDetails.toString());
         } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException(e.getMessage());
         }
-        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (passwordEncoder.matches(password, userDetails.getPassword()) && isEnable) {
             return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         } else {
             throw new BadCredentialsException("Username or password is in-correct");

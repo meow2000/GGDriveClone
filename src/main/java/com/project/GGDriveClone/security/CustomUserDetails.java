@@ -22,15 +22,6 @@ public class CustomUserDetails extends User {
         this.name = name;
     }
 
-    public CustomUserDetails(String username, String password,
-                             boolean enabled, boolean accountNonExpired,
-                             boolean credentialsNonExpired, boolean accountNonLocked,
-                             Collection<? extends GrantedAuthority> authorities, Long userId, String name) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        this.userId = userId;
-        this.name = name;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -53,10 +44,5 @@ public class CustomUserDetails extends User {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return user.isEnabled();
     }
 }
