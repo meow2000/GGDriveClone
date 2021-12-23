@@ -2,7 +2,6 @@ package com.project.GGDriveClone.security;
 
 import com.project.GGDriveClone.enums.Role;
 import com.project.GGDriveClone.jwt.JwtAuthenticationFilter;
-//import com.project.GGDriveClone.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             Logger.info("Enable application security.");
             http.authorizeRequests()
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.getName())
-                    .antMatchers("/api/login").permitAll()
+                    .antMatchers("/api/**").permitAll()
                     .anyRequest()
                     .authenticated();
 

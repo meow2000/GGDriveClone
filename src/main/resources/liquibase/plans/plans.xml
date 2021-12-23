@@ -11,7 +11,7 @@
 
             <column name="name" type="varchar(500)"/>
             <column name="cost" type="int(11)"/>
-
+            <column name="max_storage" type="int(11)" defaultValue=""/>
             <column name="created_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="updated_time" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
 

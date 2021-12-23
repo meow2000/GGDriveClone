@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userDetails;
     }
 
-    public UserDetails loadUserByUserId(Long userId){
+    public UserDetails loadUserByUserId(Long userId) {
         UserEntity user = userService.findUser(userId);
         if (user == null) {
             throw new UsernameNotFoundException("Cannot find user with id:" + userId);
