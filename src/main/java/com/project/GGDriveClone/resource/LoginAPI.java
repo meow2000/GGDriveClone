@@ -2,7 +2,9 @@ package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.LoginRequest;
 import com.project.GGDriveClone.entity.UserEntity;
+import com.project.GGDriveClone.entity.plans.PlanEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
+import com.project.GGDriveClone.security.CustomAuthenticationProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,10 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/api")
 public class LoginAPI {
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private CustomAuthenticationProvider authenticationManager;
+
+    @Autowired
+    private AdminResource adminResource;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -35,6 +40,9 @@ public class LoginAPI {
     public String authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         // Xác thực từ username và password.
+//        String username = loginRequest.getUsername();
+//        String password = loginRequest.getPassword();
+//        UserEntity userEntity = new UserEntity(username, password);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -51,6 +59,9 @@ public class LoginAPI {
     @PostMapping("/register")
     public ResponseEntity<UserEntity> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
+        Long pid = new Long(1);
+        PlanEntity plan = service.findPlan(pid);
+        user.setPlan(plan);
         service.register(user, getSiteURL(request));
         return ResponseEntity.ok(user);
     }

@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.formLogin()
                     .permitAll()
                     .defaultSuccessUrl("/swagger-ui.html")
-                    .usernameParameter("username")
+                    .usernameParameter("email")
                     .passwordParameter("password");
 
             http.csrf().disable();

@@ -7,6 +7,7 @@ import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,6 +18,9 @@ import java.util.List;
 public class AdminResource {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -35,6 +39,11 @@ public class AdminResource {
 
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
+        Long pid = new Long(1);
+        PlanEntity plan = userService.findPlan(pid);
+        user.setPlan(plan);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
@@ -59,7 +68,7 @@ public class AdminResource {
     }
 
     @PutMapping("/plan")
-    public UserEntity updatePlan( @RequestParam(name="pid") int pid, @RequestParam(name = "id") long id) {
+    public UserEntity updatePlan( @RequestParam(name="pid") Long pid, @RequestParam(name = "id") Long id) {
         UserEntity user = userService.findUser(id);
         PlanEntity plan = userService.findPlan(pid);
         user.setPlan(plan);
@@ -67,11 +76,9 @@ public class AdminResource {
         return user;
     }
 
-
     @GetMapping("/verify")
     public boolean verifyUser(@Param("code") String code) {
         return userService.verify(code);
     }
-
 
 }
