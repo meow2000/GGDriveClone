@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FileConvert {
-    public FileDto convertToFileDto (FileEntity fileEntity, String message){
+    public FileDto convertToFileDto(FileEntity fileEntity, String message) {
         FileDto fileDto = new FileDto();
         fileDto.setId(fileEntity.getId());
         fileDto.setUid(fileEntity.getUid());

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserConvert {
-    public UserDto convertToDto(UserEntity userEntity, String message){
+    public UserDto convertToDto(UserEntity userEntity, String message) {
         UserDto userDto = new UserDto();
         userDto.setEmail(userEntity.getEmail());
         userDto.setId(userEntity.getId());

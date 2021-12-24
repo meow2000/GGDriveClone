@@ -33,7 +33,7 @@ public class UserEntity {
     private String role;
 
     @ManyToOne
-    @JoinColumn(name = "pid" )
+    @JoinColumn(name = "pid")
     private PlanEntity plan;
 
     private Timestamp created_time;
@@ -49,16 +49,16 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(Long id) {
+        this.id = id;
+    }
+
     public PlanEntity getPlan() {
         return plan;
     }
 
     public void setPlan(PlanEntity plan) {
         this.plan = plan;
-    }
-
-    public UserEntity(Long id) {
-        this.id = id;
     }
 
     public Long getStorage() {

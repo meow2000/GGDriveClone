@@ -4,17 +4,17 @@ import com.project.GGDriveClone.security.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
-    private org.slf4j.Logger Logger = LoggerFactory.getLogger(JwtTokenProvider.class);
     // Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
     private final String JWT_SECRET = "lodaaaaaa";
-
     //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;
+    private org.slf4j.Logger Logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     // Tạo ra jwt từ thông tin user
     public String generateToken(CustomUserDetails userDetails) {

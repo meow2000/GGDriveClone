@@ -63,8 +63,7 @@ public class FileResource {
         if (userEntity.getStorage() + file.getSize() < userEntity.getPlan().getMax_storage()) {
             userEntity.setStorage(userEntity.getStorage() + file.getSize());
             userService.saveUser(userEntity);
-        }
-        else {
+        } else {
             message = "You have reach max storage! Contact us to upgrade your limit\n";
             return fileConvert.convertToFileDto(new FileEntity(currentUser.getUserId(),
                     file.getSize(),
@@ -132,8 +131,8 @@ public class FileResource {
     @DeleteMapping("/deleteFile")
     public void moveFileToTrash(@RequestParam Long oid) {
         FileEntity fileEntity = fileService.findFile(oid);
-        if(fileEntity == null){
-            System.out.println("Cannot find this file with oid: " + oid +"\n");
+        if (fileEntity == null) {
+            System.out.println("Cannot find this file with oid: " + oid + "\n");
             return;
         }
         fileService.moveToTrash(fileEntity);

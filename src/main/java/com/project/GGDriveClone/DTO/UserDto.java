@@ -21,7 +21,8 @@ public class UserDto {
 
     private String message;
 
-    public UserDto(){};
+    public UserDto() {
+    }
 
     public UserDto(String name, String email, String password) {
         this.name = name;

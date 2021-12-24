@@ -1,11 +1,8 @@
 package com.project.GGDriveClone.entity;
 
 
-import com.project.GGDriveClone.entity.UserEntity;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Table(name = "plans")
