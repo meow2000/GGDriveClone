@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -74,11 +75,6 @@ public class AdminResource {
         user.setPlan(plan);
         userService.saveUser(user);
         return user;
-    }
-
-    @GetMapping("/verify")
-    public boolean verifyUser(@Param("code") String code) {
-        return userService.verify(code);
     }
 
 }
