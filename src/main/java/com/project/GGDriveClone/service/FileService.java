@@ -22,18 +22,13 @@ public class FileService {
         return fileRepository.save(fileEntity);
     }
 
-    public FileEntity moveToTrash(Long oid) {
-        FileEntity fileEntity = findFile(oid);
-        if (fileEntity.getIsDeleted() == true) {
-            System.out.println("This file has been deleted!\n");
-            return null;
-        }
+    public FileEntity moveToTrash(FileEntity fileEntity) {
         fileEntity.setIsDeleted(true);
         fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         return fileRepository.save(fileEntity);
     }
 
-    public FileEntity findFile(long id) {
+    public FileEntity findFile(Long id) {
         return fileRepository.findFileById(id);
     }
 

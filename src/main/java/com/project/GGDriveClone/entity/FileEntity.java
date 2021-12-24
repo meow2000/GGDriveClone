@@ -9,7 +9,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "objects")
-@Where(clause = "is_deleted=false")
 public class FileEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -44,6 +43,13 @@ public class FileEntity {
         this.name = name;
         this.type = type;
         this.path = path;
+    }
+
+    public FileEntity(Long uid, Long size, String name, String type) {
+        this.uid = uid;
+        this.size = size;
+        this.name = name;
+        this.type = type;
     }
 
     public FileEntity() {
@@ -120,5 +126,21 @@ public class FileEntity {
 
     public void setIsDeleted(boolean deleted) {
         this.isDeleted = deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "FileEntity{" +
+                "userEntities=" + userEntities +
+                ", id=" + id +
+                ", uid=" + uid +
+                ", size=" + size +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", path='" + path + '\'' +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }
