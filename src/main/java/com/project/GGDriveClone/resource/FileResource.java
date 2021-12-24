@@ -58,7 +58,12 @@ public class FileResource {
 
         // Update storage when add a new File
         UserEntity userEntity = userService.findUser(currentUser.getUserId());
-        userEntity.setStorage(userEntity.getStorage() + file.getSize());
+
+        if (userEntity.getStorage() + file.getSize() < userEntity.getPlan().getMax_storage()){
+            userEntity.setStorage(userEntity.getStorage() + file.getSize());
+        } else {
+            return null;
+        }
         userService.saveUser(userEntity);
 
         return fileService.addFile(currentUser.getUserId(),file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
