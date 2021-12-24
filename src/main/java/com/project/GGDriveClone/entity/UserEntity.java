@@ -1,7 +1,5 @@
 package com.project.GGDriveClone.entity;
 
-import com.project.GGDriveClone.entity.plans.PlanEntity;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;

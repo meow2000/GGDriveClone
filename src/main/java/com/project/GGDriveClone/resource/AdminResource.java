@@ -1,7 +1,7 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.entity.UserEntity;
-import com.project.GGDriveClone.entity.plans.PlanEntity;
+import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

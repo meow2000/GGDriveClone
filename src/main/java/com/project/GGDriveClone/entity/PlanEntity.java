@@ -1,4 +1,4 @@
-package com.project.GGDriveClone.entity.plans;
+package com.project.GGDriveClone.entity;
 
 
 import com.project.GGDriveClone.entity.UserEntity;

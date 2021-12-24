@@ -2,7 +2,7 @@ package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.LoginRequest;
 import com.project.GGDriveClone.entity.UserEntity;
-import com.project.GGDriveClone.entity.plans.PlanEntity;
+import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
 import com.project.GGDriveClone.security.CustomAuthenticationProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
@@ -10,7 +10,6 @@ import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,9 +39,6 @@ public class LoginAPI {
     public String authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         // Xác thực từ username và password.
-//        String username = loginRequest.getUsername();
-//        String password = loginRequest.getPassword();
-//        UserEntity userEntity = new UserEntity(username, password);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );

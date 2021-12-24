@@ -1,7 +1,7 @@
 package com.project.GGDriveClone.service;
 
 import com.project.GGDriveClone.entity.UserEntity;
-import com.project.GGDriveClone.entity.plans.PlanEntity;
+import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.repository.PlanRepository;
 import com.project.GGDriveClone.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
