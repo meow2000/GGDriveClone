@@ -1,5 +1,7 @@
 package com.project.GGDriveClone.resource;
 
+import com.project.GGDriveClone.DTO.FileDto;
+import com.project.GGDriveClone.convert.FileConvert;
 import com.project.GGDriveClone.entity.AccessControlEntity;
 import com.project.GGDriveClone.entity.FileEntity;
 import com.project.GGDriveClone.entity.UserEntity;
@@ -11,28 +13,30 @@ import com.project.GGDriveClone.util.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.http.HttpHeaders;
 
 import javax.servlet.ServletContext;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class FileResource {
 
-
-    @Autowired
-    private ServletContext servletContext;
-
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
-
+    @Autowired
+    private FileConvert fileConvert;
+    @Autowired
+    private ServletContext servletContext;
     @Autowired
     private UserService userService;
 
@@ -43,30 +47,42 @@ public class FileResource {
     private AccessControlService accessControlService;
 
     @PostMapping("/createFolder")
-    public String createFolder(@RequestBody String folderName){ return FILE_DIRECTORY+ folderName+ "/";}
+    public String createFolder(@RequestBody String folderName) {
+        return FILE_DIRECTORY + folderName + "/";
+    }
 
     //Upload new file with request param MultipartFile
     @PostMapping("/uploadFile")
-    public FileEntity fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser, @RequestBody MultipartFile file) throws IOException {
+    public FileDto fileUpload(@AuthenticationPrincipal CustomUserDetails currentUser,
+                              @RequestBody MultipartFile file) throws IOException {
 
+        // Update storage when add a new File
+        UserEntity userEntity = userService.findUser(currentUser.getUserId());
+        // Check if file < storage
+        String message = "Upload successful!\n";
+        if (userEntity.getStorage() + file.getSize() < userEntity.getPlan().getMax_storage()) {
+            userEntity.setStorage(userEntity.getStorage() + file.getSize());
+            userService.saveUser(userEntity);
+        }
+        else {
+            message = "You have reach max storage! Contact us to upgrade your limit\n";
+            return fileConvert.convertToFileDto(new FileEntity(currentUser.getUserId(),
+                    file.getSize(),
+                    file.getOriginalFilename(),
+                    file.getContentType()), message);
+        }
+
+        // Create new file and store to server
         File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
         myFile.createNewFile();
-
         FileOutputStream fos = new FileOutputStream(myFile);
         fos.write(file.getBytes());
         fos.close();
 
-        // Update storage when add a new File
-        UserEntity userEntity = userService.findUser(currentUser.getUserId());
+        FileEntity fileEntity = fileService.addFile(currentUser.getUserId(), file.getSize(),
+                file.getOriginalFilename(), file.getContentType(), myFile.getPath());
 
-        if (userEntity.getStorage() + file.getSize() < userEntity.getPlan().getMax_storage()){
-            userEntity.setStorage(userEntity.getStorage() + file.getSize());
-        } else {
-            return null;
-        }
-        userService.saveUser(userEntity);
-
-        return fileService.addFile(currentUser.getUserId(),file.getSize(), file.getOriginalFilename(), file.getContentType(), myFile.getPath());
+        return fileConvert.convertToFileDto(fileEntity, message);
 
     }
 
@@ -88,7 +104,8 @@ public class FileResource {
 
     // Share file with other user use other_user_id and object_id
     @PostMapping("/shareFile")
-    public AccessControlEntity shareFile(@RequestParam Long uid, @RequestParam Long oid){
+    public AccessControlEntity shareFile(@RequestParam String username, @RequestParam Long oid) {
+        Long uid = userService.findUser(username).getId();
         AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
         return accessControlService.addAccessControlEntity(accessControlEntity);
     }
@@ -112,8 +129,13 @@ public class FileResource {
     }
 
     // Delete file (Move to trash)
-    @GetMapping("/deleteFile")
-    public FileEntity moveFileToTrash(@RequestParam Long oid){
-        return fileService.moveToTrash(oid);
+    @DeleteMapping("/deleteFile")
+    public void moveFileToTrash(@RequestParam Long oid) {
+        FileEntity fileEntity = fileService.findFile(oid);
+        if(fileEntity == null){
+            System.out.println("Cannot find this file with oid: " + oid +"\n");
+            return;
+        }
+        fileService.moveToTrash(fileEntity);
     }
 }

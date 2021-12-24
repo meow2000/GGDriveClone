@@ -5,7 +5,7 @@
 
     <changeSet id="insert_user" author="datlt">
 		<insert tableName="users">
-			<column name="pid" value="3" />
+			<column name="pid" value="1" />
 			<column name="email" value="admin@gmail.com" />
 			<column name="name" value="admin" />
 			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
@@ -13,7 +13,7 @@
 			<column name="enabled" valueBoolean="true"/>
 		</insert>
 		<insert tableName="users">
-			<column name="pid" value="3" />
+			<column name="pid" value="1" />
 			<column name="email" value="user@gmail.com" />
 			<column name="name" value="user" />
 			<column name="password" value="$2a$10$9PUY/mVZ2noX4Rs/.lV8C.IwFdZegw432w5W/PWT5yPB2Z3xkx8TC"/> <!-- hedspi2a -->
