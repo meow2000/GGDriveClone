@@ -1,18 +1,20 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.LoginRequest;
+import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
+import com.project.GGDriveClone.security.CustomAuthenticationProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,10 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/api")
 public class LoginAPI {
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private CustomAuthenticationProvider authenticationManager;
+
+    @Autowired
+    private AdminResource adminResource;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -51,6 +56,9 @@ public class LoginAPI {
     @PostMapping("/register")
     public ResponseEntity<UserEntity> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
+        Long pid = new Long(1);
+        PlanEntity plan = service.findPlan(pid);
+        user.setPlan(plan);
         service.register(user, getSiteURL(request));
         return ResponseEntity.ok(user);
     }
@@ -61,9 +69,10 @@ public class LoginAPI {
         return siteURL.replace(request.getServletPath(), "");
     }
 
+
     @GetMapping("/verify")
-    public boolean verifyUser(@Param("code") String code) {
-        return service.verify(code);
+    public ModelAndView verifyUser(@Param("code") String code) {
+        return new ModelAndView("redirect:" + "http://localhost:3000");
     }
 
 }

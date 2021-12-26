@@ -32,6 +32,10 @@ public class UserEntity {
 
     private String role;
 
+    @ManyToOne
+    @JoinColumn(name = "pid")
+    private PlanEntity plan;
+
     private Timestamp created_time;
 
     private Timestamp updated_time;
@@ -47,6 +51,14 @@ public class UserEntity {
 
     public UserEntity(Long id) {
         this.id = id;
+    }
+
+    public PlanEntity getPlan() {
+        return plan;
+    }
+
+    public void setPlan(PlanEntity plan) {
+        this.plan = plan;
     }
 
     public Long getStorage() {

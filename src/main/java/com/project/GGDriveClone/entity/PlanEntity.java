@@ -1,51 +1,51 @@
 package com.project.GGDriveClone.entity;
 
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "access_control_list")
-public class AccessControlEntity {
-
+@Table(name = "plans")
+public class PlanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long aid;
-
-    private Long uid;
-
-    private Long oid;
-
+    private Long id;
+    private String name;
+    private Long cost;
+    private Long max_storage;
     private Timestamp createdTime;
-
     private Timestamp updatedTime;
 
-    public AccessControlEntity(Long uid, Long oid) {
-        this.uid = uid;
-        this.oid = oid;
+    public Long getMax_storage() {
+        return max_storage;
     }
 
-    public Long getAid() {
-        return aid;
+    public void setMax_storage(Long max_storage) {
+        this.max_storage = max_storage;
     }
 
-    public void setAid(Long aid) {
-        this.aid = aid;
+    public Long getId() {
+        return id;
     }
 
-    public Long getUid() {
-        return uid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUid(Long uid) {
-        this.uid = uid;
+    public Long getCost() {
+        return cost;
     }
 
-    public Long getOid() {
-        return oid;
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 
-    public void setOid(Long oid) {
-        this.oid = oid;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Timestamp getCreatedTime() {

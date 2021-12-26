@@ -5,10 +5,9 @@
 
     <changeSet id="create_table_plan" author="datlt">
         <createTable tableName="plans">
-            <column name="id" type="int(11)" autoIncrement="true">
+            <column name="id" type="int(5)" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-
             <column name="name" type="varchar(500)"/>
             <column name="cost" type="int(11)"/>
             <column name="max_storage" type="int(11)" defaultValue=""/>

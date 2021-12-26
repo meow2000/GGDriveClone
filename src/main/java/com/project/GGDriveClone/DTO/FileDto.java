@@ -1,22 +1,8 @@
-package com.project.GGDriveClone.entity;
+package com.project.GGDriveClone.DTO;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-@Table(name = "objects")
-public class FileEntity {
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "access_control_list",
-            joinColumns = @JoinColumn(name = "oid"),
-            inverseJoinColumns = @JoinColumn(name = "uid"))
-    private Set<UserEntity> userEntities = new HashSet<>();
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FileDto {
     private Long id;
 
     private Long uid;
@@ -35,23 +21,14 @@ public class FileEntity {
 
     private boolean isDeleted;
 
-    public FileEntity(Long uid, Long size, String name, String type, String path) {
-        this.uid = uid;
-        this.size = size;
-        this.name = name;
-        this.type = type;
-        this.path = path;
+    private String message;
+
+    public Long getId() {
+        return id;
     }
 
-    public FileEntity(Long uid, Long size, String name, String type) {
-        this.uid = uid;
-        this.size = size;
-        this.name = name;
-        this.type = type;
-    }
-
-    public FileEntity() {
-
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getUid() {
@@ -68,14 +45,6 @@ public class FileEntity {
 
     public void setSize(Long size) {
         this.size = size;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -118,19 +87,26 @@ public class FileEntity {
         this.updatedTime = updatedTime;
     }
 
-    public boolean getIsDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean deleted) {
-        this.isDeleted = deleted;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
-        return "FileEntity{" +
-                "userEntities=" + userEntities +
-                ", id=" + id +
+        return "FileDto{" +
+                "id=" + id +
                 ", uid=" + uid +
                 ", size=" + size +
                 ", name='" + name + '\'' +
