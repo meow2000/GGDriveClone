@@ -35,6 +35,8 @@ public class AdminResource {
 
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
+        PlanEntity plan = userService.findPlan(1);
+        user.setPlan(plan);
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }

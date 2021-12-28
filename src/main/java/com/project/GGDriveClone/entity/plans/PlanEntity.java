@@ -1,6 +1,8 @@
 package com.project.GGDriveClone.entity.plans;
 
 
+import com.project.GGDriveClone.entity.UserEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -14,7 +16,6 @@ public class PlanEntity {
     private int cost;
     private Timestamp createdTime;
     private Timestamp updatedTime;
-
 
     public int getId() {
         return id;

@@ -34,8 +34,8 @@ public class UserEntity {
 
     private String role;
 
-    @OneToOne
-    @JoinColumn(name = "pid" , referencedColumnName = "id")
+    @ManyToOne()
+    @JoinColumn(name = "pid")
     private PlanEntity plan;
 
     private Timestamp created_time;
