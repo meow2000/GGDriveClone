@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @RestController
@@ -73,8 +75,13 @@ public class LoginAPI {
     }
 
     @GetMapping("/verify")
-    public boolean verifyUser(@Param("code") String code) {
-        return service.verify(code);
-    }
+    public void verifyUser(@Param("code") String code, HttpServletResponse response) throws IOException {
+        if (service.verify(code)) {
+            response.sendRedirect("/login");
+        }
+        else {
+            response.sendError(0);
+        }
 
+    }
 }
