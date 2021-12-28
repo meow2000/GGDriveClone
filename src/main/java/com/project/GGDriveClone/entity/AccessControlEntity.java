@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="access_control_list")
+@Table(name = "access_control_list")
 public class AccessControlEntity {
 
     @Id
@@ -18,6 +18,11 @@ public class AccessControlEntity {
     private Timestamp createdTime;
 
     private Timestamp updatedTime;
+
+    public AccessControlEntity(Long uid, Long oid) {
+        this.uid = uid;
+        this.oid = oid;
+    }
 
     public Long getAid() {
         return aid;
@@ -57,10 +62,5 @@ public class AccessControlEntity {
 
     public void setUpdatedTime(Timestamp updatedTime) {
         this.updatedTime = updatedTime;
-    }
-
-    public AccessControlEntity(Long uid, Long oid) {
-        this.uid = uid;
-        this.oid = oid;
     }
 }

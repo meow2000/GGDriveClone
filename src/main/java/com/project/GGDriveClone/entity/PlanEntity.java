@@ -1,4 +1,4 @@
-package com.project.GGDriveClone.entity.plans;
+package com.project.GGDriveClone.entity;
 
 
 import com.project.GGDriveClone.entity.UserEntity;
@@ -11,18 +11,36 @@ import java.sql.Timestamp;
 public class PlanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
-    private int cost;
+    private Long cost;
+    private Long max_storage;
     private Timestamp createdTime;
     private Timestamp updatedTime;
 
-    public int getId() {
+
+    public Long getMax_storage() {
+        return max_storage;
+    }
+
+    public void setMax_storage(Long max_storage) {
+        this.max_storage = max_storage;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 
     public String getName() {
@@ -31,14 +49,6 @@ public class PlanEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public Timestamp getCreatedTime() {

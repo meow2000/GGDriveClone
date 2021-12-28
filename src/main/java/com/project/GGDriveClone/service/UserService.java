@@ -1,7 +1,8 @@
 package com.project.GGDriveClone.service;
 
 import com.project.GGDriveClone.entity.UserEntity;
-import com.project.GGDriveClone.entity.plans.PlanEntity;
+import com.project.GGDriveClone.entity.PlanEntity;
+import com.project.GGDriveClone.repository.PlanRepository;
 import com.project.GGDriveClone.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,18 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private PlanRepository planRepository;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     private UserRepository userRepository;
 
-    public PlanEntity findPlan(int pid) {return userRepository.findPlanEntityById(pid);}
+
+    public PlanEntity findPlan(Long pid) {
+        return planRepository.findPlanEntityById(pid);
+    }
 
     public UserEntity findUser(String username) {
         return userRepository.findUserEntityByName(username);
@@ -63,20 +70,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
+//    public boolean checkEmailExists(String email) {
+//        if (userRepository.findUserEntityByEmail())
+//    }
+
+
     public void register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        PlanEntity plan = findPlan(1);
-
         user.setPassword(encodedPassword);
-
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
         user.setRole("USER");
-        user.setPlan(plan);
         userRepository.save(user);
         sendVerificationEmail(user, siteURL);
     }
