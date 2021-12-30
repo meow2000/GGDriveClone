@@ -33,10 +33,13 @@ public class FileResource {
 
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
+
     @Autowired
     private FileConvert fileConvert;
+
     @Autowired
     private ServletContext servletContext;
+
     @Autowired
     private UserService userService;
 
@@ -48,7 +51,7 @@ public class FileResource {
 
     @PostMapping("/createFolder")
     public String createFolder(@RequestBody String folderName) {
-        return FILE_DIRECTORY + folderName + "/";
+        return FILE_DIRECTORY + "/"+ folderName + "/";
     }
 
     //Upload new file with request param MultipartFile

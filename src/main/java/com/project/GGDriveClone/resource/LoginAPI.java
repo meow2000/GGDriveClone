@@ -36,7 +36,7 @@ public class LoginAPI {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @PostMapping("/login")
     public String authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -59,9 +59,9 @@ public class LoginAPI {
     public ResponseEntity<UserEntity> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         Long pid = new Long(1);
-        PlanEntity plan = service.findPlan(pid);
+        PlanEntity plan = userService.findPlan(pid);
         user.setPlan(plan);
-        service.register(user, getSiteURL(request));
+        userService.register(user, getSiteURL(request));
         return ResponseEntity.ok(user);
     }
 
@@ -74,7 +74,7 @@ public class LoginAPI {
 
     @GetMapping("/verify")
     public void verifyUser(@Param("code") String code, HttpServletResponse response) throws IOException {
-        if (service.verify(code)) {
+        if (userService.verify(code)) {
             response.sendRedirect("http://localhost:3000");
         }
         else {
