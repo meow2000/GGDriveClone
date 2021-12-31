@@ -4,6 +4,7 @@ import com.project.GGDriveClone.DTO.LoginRequest;
 import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
+import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.security.CustomAuthenticationProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.UserService;
@@ -37,6 +38,9 @@ public class LoginAPI {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/login")
     public String authenticateUser(@RequestBody LoginRequest loginRequest) {
