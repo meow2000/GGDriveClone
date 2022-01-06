@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,7 +51,7 @@ public class FileService {
         List<FileEntity> list2 = fileRepository.findRecentSharedFile(uid);
         System.out.println("list1:"+list1);
         System.out.println("list2:"+list2);
-        List<FileEntity> totalList = null;
+        List<FileEntity> totalList = new ArrayList<>();
         if(list1.size() == 0 && list2.size() ==0){
             return null;
         }
