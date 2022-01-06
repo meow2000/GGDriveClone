@@ -140,4 +140,10 @@ public class FileResource {
         }
         fileService.moveToTrash(fileEntity);
     }
+
+
+    @GetMapping("/getStorage")
+    public Long getStorage(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return userService.findUser(customUserDetails.getUserId()).getStorage();
+    }
 }

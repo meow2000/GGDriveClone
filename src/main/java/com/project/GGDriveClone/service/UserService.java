@@ -26,6 +26,9 @@ public class UserService {
     @Autowired
     private PlanRepository planRepository;
 
+
+
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -46,6 +49,9 @@ public class UserService {
     }
 
     public List<UserEntity> getAllUser() {
+
+
+
         return userRepository.findAll();
     }
 
@@ -70,23 +76,28 @@ public class UserService {
         return userRepository.findAll();
     }
 
-//    public boolean checkEmailExists(String email) {
-//        if (userRepository.findUserEntityByEmail())
-//    }
-
+    public boolean checkAccountExists(String name, String email) {
+        if (userRepository.findUserEntityByName(name) == null && userRepository.findUserEntityByEmail(email) == null) {
+            return true;
+        }
+        return false;
+    }
 
     public void register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        String randomCode = RandomString.make(64);
-        user.setVerificationCode(randomCode);
-        user.setEnabled(false);
-        user.setCreated_time(new Timestamp(System.currentTimeMillis()));
-        user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
-        user.setRole("USER");
-        userRepository.save(user);
-        sendVerificationEmail(user, siteURL);
+        if (checkAccountExists(user.getName(), user.getEmail()) == true) {
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            String randomCode = RandomString.make(64);
+            user.setVerificationCode(randomCode);
+            user.setEnabled(false);
+            user.setCreated_time(new Timestamp(System.currentTimeMillis()));
+            user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
+            user.setRole("USER");
+            user.setStorage(0l);
+            userRepository.save(user);
+            sendVerificationEmail(user, siteURL);
+        }
     }
 
     private void sendVerificationEmail(UserEntity user, String siteURL)
@@ -128,5 +139,4 @@ public class UserService {
             return true;
         }
     }
-
 }
