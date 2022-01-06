@@ -146,4 +146,9 @@ public class FileResource {
     public Long getStorage(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return userService.findUser(customUserDetails.getUserId()).getStorage();
     }
+
+    @GetMapping("/getCurrentUser")
+    public UserEntity getCurrentUserInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return userService.findUser(customUserDetails.getUserId());
+    }
 }
