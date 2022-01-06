@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -81,8 +80,7 @@ public class LoginAPI {
     public void verifyUser(@Param("code") String code, HttpServletResponse response) throws IOException {
         if (userService.verify(code)) {
             response.sendRedirect("http://localhost:3000");
-        }
-        else {
+        } else {
             response.sendError(0);
         }
     }
