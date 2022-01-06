@@ -16,8 +16,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminResource {
     @Autowired
-    private UserService
-            userService;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,7 +38,7 @@ public class AdminResource {
 
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
-        Long pid = new Long(1);
+        Long pid = 1l;
         PlanEntity plan = userService.findPlan(pid);
         user.setPlan(plan);
         String encodedPassword = passwordEncoder.encode(user.getPassword());

@@ -61,6 +61,7 @@ public class LoginAPI {
         Long pid = new Long(1);
         PlanEntity plan = userService.findPlan(pid);
         user.setPlan(plan);
+        user.setStorage(0L);
         userService.register(user, getSiteURL(request));
         return ResponseEntity.ok(user);
     }
