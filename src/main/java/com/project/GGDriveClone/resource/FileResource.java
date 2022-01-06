@@ -151,4 +151,9 @@ public class FileResource {
     public UserEntity getCurrentUserInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return userService.findUser(customUserDetails.getUserId());
     }
+
+    @GetMapping("/getRecent")
+    public List<FileEntity> getRecentFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return fileService.findRecentFile(customUserDetails.getUserId());
+    }
 }
