@@ -1,10 +1,11 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.LoginRequest;
+import com.project.GGDriveClone.DTO.ResponseCase;
+import com.project.GGDriveClone.DTO.ServerResponseDto;
 import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
-import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.security.CustomAuthenticationProvider;
 import com.project.GGDriveClone.security.CustomUserDetails;
 import com.project.GGDriveClone.service.UserService;
@@ -30,32 +31,26 @@ public class LoginAPI {
     private CustomAuthenticationProvider authenticationManager;
 
     @Autowired
-    private AdminResource adminResource;
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ServerResponseDto> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
-        // Nếu không xảy ra exception tức là thông tin hợp lệ
-        // Set thông tin authentication vào Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Trả về jwt cho người dùng.
-        return tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, token));
+        } else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.LOGIN_FAIL));
+        }
     }
 
     @PostMapping("/register")
