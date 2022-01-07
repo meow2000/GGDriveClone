@@ -35,4 +35,6 @@ public interface FileRepository extends JpaRepository<FileEntity, Long> {
             "order by e.updatedTime desc")
     List<FileEntity> findRecentSharedFile(Long uid);
 
+    List<FileEntity> findFilesByUidAndIsStarTrue(Long uid);
+
 }
