@@ -156,4 +156,14 @@ public class FileResource {
     public List<FileEntity> getRecentFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return fileService.findRecentFile(customUserDetails.getUserId());
     }
+
+    @PostMapping("/star")
+    public boolean starFile(@RequestParam Long oid){
+        return fileService.starFile(oid);
+    }
+
+    @GetMapping("/getStar")
+    public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return fileService.findStarFile(customUserDetails.getUserId());
+    }
 }

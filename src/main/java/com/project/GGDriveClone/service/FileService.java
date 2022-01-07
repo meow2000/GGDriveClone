@@ -49,8 +49,6 @@ public class FileService {
     public List<FileEntity> findRecentFile(Long uid) {
         List<FileEntity> list1 = fileRepository.findRecentOwnerFile(uid);
         List<FileEntity> list2 = fileRepository.findRecentSharedFile(uid);
-        System.out.println("list1:"+list1);
-        System.out.println("list2:"+list2);
         List<FileEntity> totalList = new ArrayList<>();
         if(list1.size() == 0 && list2.size() ==0){
             return null;
@@ -70,5 +68,22 @@ public class FileService {
             totalList.add(list2.get(0));
         }
         return totalList;
+    }
+
+    public List<FileEntity> findStarFile(Long userId) {
+        return fileRepository.findFilesByUidAndIsStarTrue(userId);
+    }
+
+    public boolean starFile(Long oid){
+        try{
+            FileEntity fileEntity = fileRepository.findFileById(oid);
+            fileEntity.setStar(true);
+            fileRepository.save(fileEntity);
+            return true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }
