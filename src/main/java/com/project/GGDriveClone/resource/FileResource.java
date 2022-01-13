@@ -33,10 +33,13 @@ public class FileResource {
 
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
+
     @Autowired
     private FileConvert fileConvert;
+
     @Autowired
     private ServletContext servletContext;
+
     @Autowired
     private UserService userService;
 
@@ -48,7 +51,7 @@ public class FileResource {
 
     @PostMapping("/createFolder")
     public String createFolder(@RequestBody String folderName) {
-        return FILE_DIRECTORY + folderName + "/";
+        return FILE_DIRECTORY + "/"+ folderName + "/";
     }
 
     //Upload new file with request param MultipartFile
@@ -136,5 +139,36 @@ public class FileResource {
             return;
         }
         fileService.moveToTrash(fileEntity);
+    }
+
+
+    @GetMapping("/getStorage")
+    public Long getStorage(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return userService.findUser(customUserDetails.getUserId()).getStorage();
+    }
+
+    @GetMapping("/getCurrentUser")
+    public UserEntity getCurrentUserInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return userService.findUser(customUserDetails.getUserId());
+    }
+
+    @GetMapping("/getRecent")
+    public List<FileEntity> getRecentFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return fileService.findRecentFile(customUserDetails.getUserId());
+    }
+
+    @PostMapping("/star")
+    public boolean starFile(@RequestParam Long oid){
+        return fileService.starFile(oid);
+    }
+
+    @PostMapping("/unstar")
+    public boolean unstarFile(@RequestParam Long oid){
+        return fileService.unstarFile(oid);
+    }
+
+    @GetMapping("/getStar")
+    public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return fileService.findStarFile(customUserDetails.getUserId());
     }
 }

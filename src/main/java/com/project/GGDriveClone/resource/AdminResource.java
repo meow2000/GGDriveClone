@@ -37,14 +37,19 @@ public class AdminResource {
 
 
     @PostMapping("/add")
-    public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) {
-        Long pid = new Long(1);
-        PlanEntity plan = userService.findPlan(pid);
-        user.setPlan(plan);
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userService.saveUser(user);
-        return ResponseEntity.ok(user);
+    public boolean createUser(@Valid @RequestBody UserEntity user) {
+        if (userService.checkAccountExists(user.getName(), user.getEmail())) {
+            Long pid = new Long(1);
+            PlanEntity plan = userService.findPlan(pid);
+            user.setPlan(plan);
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            user.setStorage(0l);
+            userService.saveUser(user);
+            return true;
+        }
+
+        return false;
     }
 
     @DeleteMapping("/delete/{id}")

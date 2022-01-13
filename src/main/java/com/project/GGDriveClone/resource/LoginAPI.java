@@ -1,6 +1,8 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.LoginRequest;
+import com.project.GGDriveClone.DTO.ResponseCase;
+import com.project.GGDriveClone.DTO.ServerResponseDto;
 import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.jwt.JwtTokenProvider;
@@ -14,11 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @RestController
@@ -28,38 +31,36 @@ public class LoginAPI {
     private CustomAuthenticationProvider authenticationManager;
 
     @Autowired
-    private AdminResource adminResource;
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ServerResponseDto> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
-        // Nếu không xảy ra exception tức là thông tin hợp lệ
-        // Set thông tin authentication vào Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Trả về jwt cho người dùng.
-        return tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, token));
+        } else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.LOGIN_FAIL));
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserEntity> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         Long pid = new Long(1);
-        PlanEntity plan = service.findPlan(pid);
+        PlanEntity plan = userService.findPlan(pid);
         user.setPlan(plan);
-        service.register(user, getSiteURL(request));
+        user.setStorage(0L);
+        userService.register(user, getSiteURL(request));
         return ResponseEntity.ok(user);
     }
 
@@ -71,8 +72,11 @@ public class LoginAPI {
 
 
     @GetMapping("/verify")
-    public ModelAndView verifyUser(@Param("code") String code) {
-        return new ModelAndView("redirect:" + "http://localhost:3000");
+    public void verifyUser(@Param("code") String code, HttpServletResponse response) throws IOException {
+        if (userService.verify(code)) {
+            response.sendRedirect("http://localhost:3000");
+        } else {
+            response.sendError(0);
+        }
     }
-
 }

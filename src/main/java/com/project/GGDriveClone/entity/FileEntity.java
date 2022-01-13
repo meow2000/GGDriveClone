@@ -33,6 +33,8 @@ public class FileEntity {
 
     private Timestamp updatedTime;
 
+    private boolean isStar;
+
     private boolean isDeleted;
 
     public FileEntity(Long uid, Long size, String name, String type, String path) {
@@ -52,6 +54,14 @@ public class FileEntity {
 
     public FileEntity() {
 
+    }
+
+    public boolean isStar() {
+        return isStar;
+    }
+
+    public void setStar(boolean star) {
+        isStar = star;
     }
 
     public Long getUid() {

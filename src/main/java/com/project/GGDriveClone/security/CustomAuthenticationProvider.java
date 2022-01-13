@@ -36,17 +36,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         boolean isEnable = userService.findUser(username).isEnabled();
         CustomUserDetails userDetails;
-        try {
-            userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
-            System.out.println(userDetails.toString());
-        } catch (UsernameNotFoundException e) {
-            throw new BadCredentialsException(e.getMessage());
+        userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        System.out.println(userDetails.toString());
+        if(userDetails != null){
+            if (passwordEncoder.matches(password, userDetails.getPassword()) && isEnable) {
+                return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+            } else {
+                return null;
+            }
         }
-        if (passwordEncoder.matches(password, userDetails.getPassword()) && isEnable) {
-            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        } else {
-            throw new BadCredentialsException("Username or password is in-correct");
-        }
+        else return null;
     }
 
     @Override

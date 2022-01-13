@@ -1,6 +1,8 @@
 package com.project.GGDriveClone.entity;
 
 
+import com.project.GGDriveClone.entity.UserEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -15,6 +17,7 @@ public class PlanEntity {
     private Long max_storage;
     private Timestamp createdTime;
     private Timestamp updatedTime;
+
 
     public Long getMax_storage() {
         return max_storage;
