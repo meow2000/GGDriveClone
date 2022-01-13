@@ -162,6 +162,11 @@ public class FileResource {
         return fileService.starFile(oid);
     }
 
+    @PostMapping("/unstar")
+    public boolean unstarFile(@RequestParam Long oid){
+        return fileService.unstarFile(oid);
+    }
+
     @GetMapping("/getStar")
     public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return fileService.findStarFile(customUserDetails.getUserId());

@@ -86,4 +86,17 @@ public class FileService {
             return false;
         }
     }
+
+    public boolean unstarFile(Long oid){
+        try{
+            FileEntity fileEntity = fileRepository.findFileById(oid);
+            fileEntity.setStar(false);
+            fileRepository.save(fileEntity);
+            return true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
