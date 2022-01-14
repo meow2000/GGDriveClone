@@ -29,8 +29,16 @@ public class FileService {
         return fileRepository.save(fileEntity);
     }
 
+    public void completedDelete(Long oid){
+        fileRepository.deleteById(oid);
+    }
+
     public FileEntity findFile(Long id) {
         return fileRepository.findFileById(id);
+    }
+
+    public FileEntity findFile(String filename) {
+        return fileRepository.findFirstByName(filename);
     }
 
     public List<FileEntity> findFilesByUser(Long uid) {

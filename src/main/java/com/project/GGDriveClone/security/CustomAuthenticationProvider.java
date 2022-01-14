@@ -34,10 +34,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        boolean isEnable = userService.findUser(username).isEnabled();
+        if(username == null || password == null) return null;
+        boolean isEnable = false;
+        try{
+            isEnable = userService.findUser(username).isEnabled();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
         CustomUserDetails userDetails;
         userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
-        System.out.println(userDetails.toString());
+        System.out.println("Userdetail:" + userDetails.toString());
         if(userDetails != null){
             if (passwordEncoder.matches(password, userDetails.getPassword()) && isEnable) {
                 return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

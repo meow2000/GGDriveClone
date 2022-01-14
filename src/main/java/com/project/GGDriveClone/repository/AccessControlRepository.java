@@ -11,4 +11,6 @@ public interface AccessControlRepository extends JpaRepository<AccessControlEnti
     List<AccessControlEntity> findAllByUid(Long uid);
 
     List<AccessControlEntity> findAllByOid(Long oid);
+
+    AccessControlEntity findByUidAndOid(Long uid, Long oid);
 }

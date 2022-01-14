@@ -12,7 +12,11 @@ import java.util.List;
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, Long> {
 
+    void deleteById(Long id);
+
     FileEntity findFileById(Long id);
+
+    FileEntity findFirstByName(String filename);
 
     List<FileEntity> findFilesByUidAndIsDeletedTrue(Long uid);
 
