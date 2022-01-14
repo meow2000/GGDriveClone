@@ -24,6 +24,8 @@ public class AccessControlEntity {
         this.oid = oid;
     }
 
+    public AccessControlEntity(){}
+
     public Long getAid() {
         return aid;
     }

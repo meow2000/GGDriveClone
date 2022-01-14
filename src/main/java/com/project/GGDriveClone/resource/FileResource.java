@@ -1,6 +1,8 @@
 package com.project.GGDriveClone.resource;
 
 import com.project.GGDriveClone.DTO.FileDto;
+import com.project.GGDriveClone.DTO.ResponseCase;
+import com.project.GGDriveClone.DTO.ServerResponseDto;
 import com.project.GGDriveClone.convert.FileConvert;
 import com.project.GGDriveClone.entity.AccessControlEntity;
 import com.project.GGDriveClone.entity.FileEntity;
@@ -61,8 +63,17 @@ public class FileResource {
 
         // Update storage when add a new File
         UserEntity userEntity = userService.findUser(currentUser.getUserId());
-        // Check if file < storage
+
         String message = "Upload successful!\n";
+        // Check file exits
+        FileEntity fileEntity0 = fileService.findFile(file.getOriginalFilename());
+        if(fileEntity0 != null){
+            System.out.println("DMMMM");
+            message = "Filename existed!";
+            return fileConvert.convertToFileDto(new FileEntity(), message);
+        }
+
+        // Check if file < storage
         if (userEntity.getStorage() + file.getSize() < userEntity.getPlan().getMax_storage()) {
             userEntity.setStorage(userEntity.getStorage() + file.getSize());
             userService.saveUser(userEntity);
@@ -106,10 +117,19 @@ public class FileResource {
 
     // Share file with other user use other_user_id and object_id
     @PostMapping("/shareFile")
-    public AccessControlEntity shareFile(@RequestParam String username, @RequestParam Long oid) {
-        Long uid = userService.findUser(username).getId();
-        AccessControlEntity accessControlEntity = new AccessControlEntity(uid, oid);
-        return accessControlService.addAccessControlEntity(accessControlEntity);
+    public ResponseEntity<ServerResponseDto> shareFile(@RequestParam String username, @RequestParam Long oid) {
+        UserEntity userEntity= userService.findUser(username);
+        FileEntity fileEntity = fileService.findFile(oid);
+        if(userEntity == null || fileEntity == null){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.USER_OR_FILE_NOT_EXIST));
+        }
+        AccessControlEntity accessControlEntity0 = accessControlService.findByUidAndOid(userEntity.getId(), oid);
+        if(accessControlEntity0 != null){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.ACCESS_CONTROL_EXIST));
+        }
+        AccessControlEntity accessControlEntity1 = new AccessControlEntity(userEntity.getId(), oid);
+        AccessControlEntity accessControlEntity2 = accessControlService.addAccessControlEntity(accessControlEntity1);
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, accessControlEntity2));
     }
 
     // List file created by current user
@@ -141,6 +161,10 @@ public class FileResource {
         fileService.moveToTrash(fileEntity);
     }
 
+    @DeleteMapping("/completedDelete")
+    public void completedDelete(@RequestParam Long oid) {
+        fileService.completedDelete(oid);
+    }
 
     @GetMapping("/getStorage")
     public Long getStorage(@AuthenticationPrincipal CustomUserDetails customUserDetails){
