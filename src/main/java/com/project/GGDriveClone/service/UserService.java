@@ -36,9 +36,12 @@ public class UserService {
     private UserRepository userRepository;
 
 
+
+
     public PlanEntity findPlan(Long pid) {
         return planRepository.findPlanEntityById(pid);
     }
+
 
     public UserEntity findUser(String username) {
         return userRepository.findUserEntityByName(username);
@@ -54,7 +57,6 @@ public class UserService {
 
         return userRepository.findAll();
     }
-
 
     public void saveUser(UserEntity user) {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
@@ -76,12 +78,20 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean checkAccountExists(String name, String email) {
+    public boolean checkAccountNotExists(String name, String email) {
         if (userRepository.findUserEntityByName(name) == null && userRepository.findUserEntityByEmail(email) == null) {
             return true;
         }
         return false;
     }
+
+    public boolean checkAccountExists(String name, String email) {
+        if (userRepository.findUserEntityByName(name) != null || userRepository.findUserEntityByEmail(email) != null) {
+            return true;
+        }
+        return false;
+    }
+
 
     public int register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
@@ -89,7 +99,7 @@ public class UserService {
         if ( user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
             return 0;
         }
-        if (checkAccountExists(user.getName(), user.getEmail()) == true) {
+        if (checkAccountNotExists(user.getName(), user.getEmail()) == true) {
                 Long pid = 1l;
                 PlanEntity plan = findPlan(pid);
                 user.setPlan(plan);

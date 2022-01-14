@@ -33,6 +33,11 @@ public interface ResponseCase {
 
     ResponseStatus LACK_OF_INFORMATION = new ResponseStatus(1506, "lack of information");
 
+    ResponseStatus INVALID_USER_ID = new ResponseStatus(1506, "invalid user id");
+
+    ResponseStatus INVALID_USER_ID_OR_PID = new ResponseStatus(1507, "invalid user id or pid");
+
+
 
 }
 

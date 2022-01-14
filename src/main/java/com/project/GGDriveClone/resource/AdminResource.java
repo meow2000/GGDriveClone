@@ -1,5 +1,7 @@
 package com.project.GGDriveClone.resource;
 
+import com.project.GGDriveClone.DTO.ResponseCase;
+import com.project.GGDriveClone.DTO.ServerResponseDto;
 import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
 import com.project.GGDriveClone.repository.UserRepository;
@@ -31,14 +33,21 @@ public class AdminResource {
     }
 
     @GetMapping("/{id}")
-    public UserEntity getUser(@PathVariable("id") Long id) {
-        return userRepository.findUserEntityById(id);
+    public ResponseEntity<ServerResponseDto> getUser(@PathVariable("id") Long id) {
+        UserEntity user =  userRepository.findUserEntityById(id);
+        if (user == null) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.INVALID_USER_ID));
+        }
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, user));
     }
 
 
     @PostMapping("/add")
     public boolean createUser(@Valid @RequestBody UserEntity user) {
-        if (userService.checkAccountExists(user.getName(), user.getEmail())) {
+        if (user.getName() == null || user.getPassword() == null || user.getEmail() == null) {
+            return false;
+        }
+        if (userService.checkAccountNotExists(user.getName(), user.getEmail())) {
             Long pid = new Long(1);
             PlanEntity plan = userService.findPlan(pid);
             user.setPlan(plan);
@@ -48,36 +57,52 @@ public class AdminResource {
             userService.saveUser(user);
             return true;
         }
-
         return false;
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteTodo(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ServerResponseDto> deleteTodo(@PathVariable(name = "id") Long id) {
+        if (userService.findUser(id) == null) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.INVALID_USER_ID));
+        }
         userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity updateUser(
+    public ResponseEntity<ServerResponseDto> updateUser(
             @PathVariable(value = "id") Long id, @Valid @RequestBody UserEntity userDetail) {
-
         UserEntity user = userRepository.findUserEntityById(id);
-        user.setEmail(userDetail.getEmail());
-        user.setName(userDetail.getName());
+        if (user == null) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.INVALID_USER_ID));
+        }
+        String name = userDetail.getName();
+        String email = userDetail.getEmail();
+        if (userService.checkAccountExists(name, email)) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.EXISTED_NAME_OR_EMAIL));
+        }
+        user.setEmail(email);
+        user.setName(name);
         user.setEnabled(true);
         userService.saveUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, user));
+
     }
 
     @PutMapping("/plan")
-    public UserEntity updatePlan(@RequestParam(name = "pid") Long pid, @RequestParam(name = "id") Long id) {
+    public ResponseEntity<ServerResponseDto> updatePlan(@RequestParam(name = "pid") Long pid, @RequestParam(name = "id") Long id) {
         UserEntity user = userService.findUser(id);
         PlanEntity plan = userService.findPlan(pid);
-        user.setPlan(plan);
-        userService.saveUser(user);
-        return user;
+        if (user != null && plan != null) {
+            user.setPlan(plan);
+            userService.saveUser(user);
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, user));
+        }
+
+        else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.INVALID_USER_ID_OR_PID));
+        }
     }
 
 }
