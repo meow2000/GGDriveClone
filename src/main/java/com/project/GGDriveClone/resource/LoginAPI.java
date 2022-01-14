@@ -54,14 +54,21 @@ public class LoginAPI {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserEntity> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
+    public ResponseEntity<ServerResponseDto> register(@Valid @RequestBody UserEntity user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
-        Long pid = new Long(1);
-        PlanEntity plan = userService.findPlan(pid);
-        user.setPlan(plan);
-        user.setStorage(0L);
-        userService.register(user, getSiteURL(request));
-        return ResponseEntity.ok(user);
+
+        if(userService.register(user, getSiteURL(request)) == 1) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS));
+        }
+
+        if(userService.register(user, getSiteURL(request)) == 0) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.LACK_OF_INFORMATION));
+        }
+
+        if(userService.register(user, getSiteURL(request)) == 2) {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.EXISTED_NAME_OR_EMAIL));
+        }
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.ERROR));
     }
 
 

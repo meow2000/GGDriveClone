@@ -83,21 +83,32 @@ public class UserService {
         return false;
     }
 
-    public void register(UserEntity user, String siteURL)
+    public int register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
-        if (checkAccountExists(user.getName(), user.getEmail()) == true) {
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-            String randomCode = RandomString.make(64);
-            user.setVerificationCode(randomCode);
-            user.setEnabled(false);
-            user.setCreated_time(new Timestamp(System.currentTimeMillis()));
-            user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
-            user.setRole("USER");
-            user.setStorage(0l);
-            userRepository.save(user);
-            sendVerificationEmail(user, siteURL);
+
+        if ( user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
+            return 0;
         }
+        if (checkAccountExists(user.getName(), user.getEmail()) == true) {
+                Long pid = 1l;
+                PlanEntity plan = findPlan(pid);
+                user.setPlan(plan);
+                user.setStorage(0L);
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                user.setPassword(encodedPassword);
+                String randomCode = RandomString.make(64);
+                user.setVerificationCode(randomCode);
+                user.setEnabled(false);
+                user.setCreated_time(new Timestamp(System.currentTimeMillis()));
+                user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
+                user.setRole("USER");
+                user.setStorage(0l);
+                userRepository.save(user);
+                sendVerificationEmail(user, siteURL);
+                return 1;
+        }
+
+        return 2;
     }
 
     private void sendVerificationEmail(UserEntity user, String siteURL)
@@ -111,7 +122,6 @@ public class UserService {
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
                 + "Thank you,<br>"
                 + "Group 2.";
-
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 

@@ -164,4 +164,21 @@ public class UserEntity {
     public void setIs_deleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
     }
+
+    public UserEntity(Set<FileEntity> fileEntities, Long id, String name, String email, String password, String verificationCode, boolean enabled, String role, PlanEntity plan, Timestamp created_time, Timestamp updated_time, Timestamp last_login_at, boolean is_deleted, Long storage) {
+        this.fileEntities = fileEntities;
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.verificationCode = verificationCode;
+        this.enabled = enabled;
+        this.role = role;
+        this.plan = plan;
+        this.created_time = created_time;
+        this.updated_time = updated_time;
+        this.last_login_at = last_login_at;
+        this.is_deleted = is_deleted;
+        this.storage = storage;
+    }
 }
