@@ -27,4 +27,6 @@ public class AccessControlService {
     public List<AccessControlEntity> findAllByOid(Long oid) {
         return accessControlRepository.findAllByOid(oid);
     }
+
+    public AccessControlEntity findByUidAndOid(Long uid, Long oid){return accessControlRepository.findByUidAndOid(uid, oid);}
 }

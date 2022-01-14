@@ -4,9 +4,13 @@ public interface ResponseCase {
     //common
     ResponseStatus SUCCESS = new ResponseStatus(1000, "SUCCESS");
     ResponseStatus ERROR = new ResponseStatus(4, "ERROR");
+
+    //login
     ResponseStatus LOGIN_FAIL = new ResponseStatus(5, "LOGIN FAIL");
-    ResponseStatus USER_NOT_LOGIN = new ResponseStatus(1401, "USER NOT LOGIN");
-    ResponseStatus NOT_FOUND = new ResponseStatus(1404, "NOT FOUND");
+
+    //file
+    ResponseStatus USER_OR_FILE_NOT_EXIST = new ResponseStatus(6, "USER OR FILE NOT EXIST");
+    ResponseStatus ACCESS_CONTROL_EXIST = new ResponseStatus(7, "USER ALREADY HAVE PERMISSION TO ACCESS THIS FILE");
 
     // patientInfo
     ResponseStatus NOT_FOUND_PATIENT_INFO = new ResponseStatus(1405, "PATIENT INFO NOT FOUND");
