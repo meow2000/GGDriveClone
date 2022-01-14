@@ -27,13 +27,16 @@ public interface ResponseCase {
 
     ResponseStatus DATA_FROM_ELINK = new ResponseStatus(1500, "One time code is not exist in Kusuri system");
 
-    ResponseStatus EXISTED_COMPANY_CODE = new ResponseStatus(1501, "Company code is existed");
+    ResponseStatus EXISTED_NAME_OR_EMAIL = new ResponseStatus(1501, "Username or email is existed");
 
     ResponseStatus MEMBER_PCR_SOURCE_NOT_FOUND = new ResponseStatus(1503, "Member pcr source not found");
 
     ResponseStatus INVALID_IP = new ResponseStatus(1504, "Invalid IP");
 
     ResponseStatus MULTIPLE_MEDICATE = new ResponseStatus(1505, "QR has multiple medicate");
+
+    ResponseStatus LACK_OF_INFORMATION = new ResponseStatus(1506, "lack of information");
+
 
 }
 
