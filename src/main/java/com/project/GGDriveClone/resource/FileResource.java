@@ -68,7 +68,6 @@ public class FileResource {
         // Check file exits
         FileEntity fileEntity0 = fileService.findFile(file.getOriginalFilename());
         if(fileEntity0 != null){
-            System.out.println("DMMMM");
             message = "Filename existed!";
             return fileConvert.convertToFileDto(new FileEntity(), message);
         }

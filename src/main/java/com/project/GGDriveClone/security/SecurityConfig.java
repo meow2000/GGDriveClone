@@ -84,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.cors().configurationSource(request -> {
                 CorsConfiguration cors = new CorsConfiguration();
                 cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                cors.setAllowedOrigins(List.of("https://truong-352-drive-clone.herokuapp.com"));
                 cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 cors.setAllowedHeaders(List.of("*"));
                 return cors;
