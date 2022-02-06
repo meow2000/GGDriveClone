@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findUserEntityByName(String username);
 
@@ -23,7 +25,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT u FROM UserEntity u WHERE u.verificationCode = ?1")
     UserEntity findByVerificationCode(String code);
 
-
+    @Query(value = "select u " +
+            "from UserEntity u " +
+            "where u.is_deleted = false  " +
+            "and u.name like concat('%', ?1, '%') " +
+            "order by u.updated_time desc")
+    List<UserEntity> search(String keyword);
 }
 
 

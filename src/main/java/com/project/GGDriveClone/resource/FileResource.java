@@ -194,4 +194,14 @@ public class FileResource {
     public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return fileService.findStarFile(customUserDetails.getUserId());
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<ServerResponseDto> search (@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                     @RequestParam String keyword){
+        List<FileEntity> fileEntities = fileService.search(customUserDetails.getUserId(), keyword);
+        if(fileEntities.size() == 0){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_RESULT_FOUND));
+        }
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, fileEntities));
+    }
 }

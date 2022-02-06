@@ -120,4 +120,15 @@ public class AdminResource {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ServerResponseDto> search(@RequestParam String keyword){
+        List<UserEntity> userEntities = userRepository.search(keyword);
+        if (userEntities.size() == 0 ){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_USER_FOUND));
+        }
+        else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, userEntities));
+        }
+    }
+
 }

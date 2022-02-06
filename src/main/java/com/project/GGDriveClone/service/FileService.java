@@ -107,4 +107,8 @@ public class FileService {
             return false;
         }
     }
+
+    public List<FileEntity> search(Long userId, String keyword) {
+        return fileRepository.searchFile(userId, keyword);
+    }
 }
