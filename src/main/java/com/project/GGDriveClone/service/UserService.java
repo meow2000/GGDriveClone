@@ -61,7 +61,6 @@ public class UserService {
     public void saveUser(UserEntity user) {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
-        user.setRole("USER");
         user.setEnabled(true);
         userRepository.save(user);
     }

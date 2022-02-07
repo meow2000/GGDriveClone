@@ -58,6 +58,7 @@ public class AdminResource {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
             user.setStorage(0l);
+            user.setRole("USER");
             userService.saveUser(user);
             return true;
         }
