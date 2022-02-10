@@ -22,7 +22,7 @@
             <column name="last_login_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
 
         </createTable>
-        
+
         <modifySql dbms="mysql">
    			<append value="ENGINE=INNODB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_520_ci" />
   		</modifySql>

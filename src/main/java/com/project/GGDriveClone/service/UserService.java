@@ -27,15 +27,11 @@ public class UserService {
     private PlanRepository planRepository;
 
 
-
-
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     private UserRepository userRepository;
-
-
 
 
     public PlanEntity findPlan(Long pid) {
@@ -52,7 +48,6 @@ public class UserService {
     }
 
     public List<UserEntity> getAllUser() {
-
 
 
         return userRepository.findAll();
@@ -96,26 +91,26 @@ public class UserService {
     public int register(UserEntity user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
 
-        if ( user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
+        if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
             return 0;
         }
-        if (checkAccountNotExists(user.getName(), user.getEmail()) == true) {
-                Long pid = 1l;
-                PlanEntity plan = findPlan(pid);
-                user.setPlan(plan);
-                user.setStorage(0L);
-                String encodedPassword = passwordEncoder.encode(user.getPassword());
-                user.setPassword(encodedPassword);
-                String randomCode = RandomString.make(64);
-                user.setVerificationCode(randomCode);
-                user.setEnabled(false);
-                user.setCreated_time(new Timestamp(System.currentTimeMillis()));
-                user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
-                user.setRole("USER");
-                user.setStorage(0l);
-                userRepository.save(user);
-                sendVerificationEmail(user, siteURL);
-                return 1;
+        if (checkAccountNotExists(user.getName(), user.getEmail())) {
+            Long pid = 1l;
+            PlanEntity plan = findPlan(pid);
+            user.setPlan(plan);
+            user.setStorage(0L);
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            String randomCode = RandomString.make(64);
+            user.setVerificationCode(randomCode);
+            user.setEnabled(false);
+            user.setCreated_time(new Timestamp(System.currentTimeMillis()));
+            user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
+            user.setRole("USER");
+            user.setStorage(0l);
+            userRepository.save(user);
+            sendVerificationEmail(user, siteURL);
+            return 1;
         }
 
         return 2;
