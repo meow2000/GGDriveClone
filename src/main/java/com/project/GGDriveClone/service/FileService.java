@@ -58,21 +58,18 @@ public class FileService {
         List<FileEntity> list1 = fileRepository.findRecentOwnerFile(uid);
         List<FileEntity> list2 = fileRepository.findRecentSharedFile(uid);
         List<FileEntity> totalList = new ArrayList<>();
-        if(list1.size() == 0 && list2.size() ==0){
-            return null;
-        }
         if(list1.size() >= 2){
             totalList.add(list1.get(0));
             totalList.add(list1.get(1));
         }
-        else{
+        else if (list1.size() == 1){
             totalList.add(list1.get(0));
         }
         if(list2.size() >= 2){
             totalList.add(list2.get(0));
             totalList.add(list2.get(1));
         }
-        else{
+        else if (list2.size() == 1){
             totalList.add(list2.get(0));
         }
         return totalList;
