@@ -47,14 +47,8 @@ public class UserService {
         return userRepository.findUserEntityById(uid);
     }
 
-    public UserEntity findUserDeleteFalse(Long uid) {
-        return userRepository.findUserEntityByIdAndIs_deletedFalse(uid);
-    }
-
 
     public List<UserEntity> getAllUser() {
-
-
         return userRepository.findAll();
     }
 
