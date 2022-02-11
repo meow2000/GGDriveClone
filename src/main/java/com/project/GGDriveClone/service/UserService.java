@@ -47,6 +47,11 @@ public class UserService {
         return userRepository.findUserEntityById(uid);
     }
 
+    public UserEntity findUserDeleteFalse(Long uid) {
+        return userRepository.findUserEntityByIdAndIs_deletedFalse(uid);
+    }
+
+
     public List<UserEntity> getAllUser() {
 
 
@@ -56,13 +61,14 @@ public class UserService {
     public void saveUser(UserEntity user) {
         user.setCreated_time(new Timestamp(System.currentTimeMillis()));
         user.setUpdated_time(new Timestamp(System.currentTimeMillis()));
-        user.setRole("USER");
         user.setEnabled(true);
         userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        UserEntity user = userRepository.findUserEntityById(id);
+        user.setIs_deleted(true);
+        saveUser(user);
     }
 
     public Optional<UserEntity> findUserById(Long id) {

@@ -68,7 +68,6 @@ public class FileResource {
         // Check file exits
         FileEntity fileEntity0 = fileService.findFile(file.getOriginalFilename());
         if(fileEntity0 != null){
-            System.out.println("DMMMM");
             message = "Filename existed!";
             return fileConvert.convertToFileDto(new FileEntity(), message);
         }
@@ -194,5 +193,15 @@ public class FileResource {
     @GetMapping("/getStar")
     public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return fileService.findStarFile(customUserDetails.getUserId());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ServerResponseDto> search (@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                     @RequestParam String keyword){
+        List<FileEntity> fileEntities = fileService.search(customUserDetails.getUserId(), keyword);
+        if(fileEntities.size() == 0){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_RESULT_FOUND));
+        }
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, fileEntities));
     }
 }

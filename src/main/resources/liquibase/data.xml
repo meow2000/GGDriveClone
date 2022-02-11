@@ -25,7 +25,7 @@
 		<insert tableName="plans">
 			<column name="name" value="10MB"/>
 			<column name="cost" value="100" />
-			<column name="max_storage" value="20971520"/>
+			<column name="max_storage" value="10485760"/>
 		</insert>
 		<insert tableName="plans">
 			<column name="name" value="50MB"/>

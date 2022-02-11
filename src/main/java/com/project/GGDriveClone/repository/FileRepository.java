@@ -39,6 +39,14 @@ public interface FileRepository extends JpaRepository<FileEntity, Long> {
             "order by e.updatedTime desc")
     List<FileEntity> findRecentSharedFile(Long uid);
 
+    @Query(value = "select e " +
+            "from FileEntity e " +
+            "where e.isDeleted = false  " +
+            "and (e.uid = ?1)" +
+            "and e.name like concat('%', ?2, '%') " +
+            "order by e.updatedTime desc")
+    List<FileEntity> searchFile(Long uid, String keyword);
+
     List<FileEntity> findFilesByUidAndIsStarTrue(Long uid);
 
 }

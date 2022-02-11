@@ -81,7 +81,7 @@ public class LoginAPI {
     @GetMapping("/verify")
     public void verifyUser(@Param("code") String code, HttpServletResponse response) throws IOException {
         if (userService.verify(code)) {
-            response.sendRedirect("http://localhost:3000");
+            response.sendRedirect("https://truong-352-drive-clone.herokuapp.com/sign-in");
         } else {
             response.sendError(0);
         }

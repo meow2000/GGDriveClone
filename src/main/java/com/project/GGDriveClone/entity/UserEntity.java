@@ -1,5 +1,7 @@
 package com.project.GGDriveClone.entity;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Where(clause = "is_deleted=false")
 public class UserEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
