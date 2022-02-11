@@ -160,9 +160,20 @@ public class FileResource {
         fileService.moveToTrash(fileEntity);
     }
 
+    @PutMapping("/undoDelete")
+    public void undoDelete(@RequestParam Long oid) {
+        FileEntity fileEntity = fileService.findFile(oid);
+        if (fileEntity == null) {
+            System.out.println("Cannot find this file with oid: " + oid + "\n");
+            return;
+        }
+        fileService.undoDelete(fileEntity);
+    }
+
     @DeleteMapping("/completedDelete")
-    public void completedDelete(@RequestParam Long oid) {
-        fileService.completedDelete(oid);
+    public void completedDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @RequestParam Long oid) {
+        fileService.completedDelete(customUserDetails.getUserId(), oid);
     }
 
     @GetMapping("/getStorage")

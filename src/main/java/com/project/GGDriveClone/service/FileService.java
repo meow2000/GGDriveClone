@@ -12,6 +12,8 @@ import java.util.List;
 
 @Service
 public class FileService {
+    @Autowired
+    UserService userService;
 
     @Autowired
     FileRepository fileRepository;
@@ -29,7 +31,17 @@ public class FileService {
         return fileRepository.save(fileEntity);
     }
 
-    public void completedDelete(Long oid){
+    public FileEntity undoDelete(FileEntity fileEntity) {
+        fileEntity.setIsDeleted(false);
+        fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+        return fileRepository.save(fileEntity);
+    }
+
+    public void completedDelete(Long uid, Long oid){
+        UserEntity userEntity = userService.findUser(uid);
+        FileEntity fileEntity = findFile(oid);
+        userEntity.setStorage(userEntity.getStorage() - fileEntity.getSize());
+        userService.saveUser(userEntity);
         fileRepository.deleteById(oid);
     }
 
