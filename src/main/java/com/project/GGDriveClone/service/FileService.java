@@ -12,6 +12,8 @@ import java.util.List;
 
 @Service
 public class FileService {
+    @Autowired
+    UserService userService;
 
     @Autowired
     FileRepository fileRepository;
@@ -29,7 +31,17 @@ public class FileService {
         return fileRepository.save(fileEntity);
     }
 
-    public void completedDelete(Long oid){
+    public FileEntity undoDelete(FileEntity fileEntity) {
+        fileEntity.setIsDeleted(false);
+        fileEntity.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+        return fileRepository.save(fileEntity);
+    }
+
+    public void completedDelete(Long uid, Long oid){
+        UserEntity userEntity = userService.findUser(uid);
+        FileEntity fileEntity = findFile(oid);
+        userEntity.setStorage(userEntity.getStorage() - fileEntity.getSize());
+        userService.saveUser(userEntity);
         fileRepository.deleteById(oid);
     }
 
@@ -58,21 +70,18 @@ public class FileService {
         List<FileEntity> list1 = fileRepository.findRecentOwnerFile(uid);
         List<FileEntity> list2 = fileRepository.findRecentSharedFile(uid);
         List<FileEntity> totalList = new ArrayList<>();
-        if(list1.size() == 0 && list2.size() ==0){
-            return null;
-        }
         if(list1.size() >= 2){
             totalList.add(list1.get(0));
             totalList.add(list1.get(1));
         }
-        else{
+        else if (list1.size() == 1){
             totalList.add(list1.get(0));
         }
         if(list2.size() >= 2){
             totalList.add(list2.get(0));
             totalList.add(list2.get(1));
         }
-        else{
+        else if (list2.size() == 1){
             totalList.add(list2.get(0));
         }
         return totalList;
@@ -106,5 +115,9 @@ public class FileService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<FileEntity> search(Long userId, String keyword) {
+        return fileRepository.searchFile(userId, keyword);
     }
 }

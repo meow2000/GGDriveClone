@@ -4,6 +4,7 @@ import com.project.GGDriveClone.DTO.ResponseCase;
 import com.project.GGDriveClone.DTO.ServerResponseDto;
 import com.project.GGDriveClone.entity.PlanEntity;
 import com.project.GGDriveClone.entity.UserEntity;
+import com.project.GGDriveClone.repository.PlanRepository;
 import com.project.GGDriveClone.repository.UserRepository;
 import com.project.GGDriveClone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class AdminResource {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PlanRepository planRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<UserEntity> getAllUsers() {
@@ -54,6 +58,7 @@ public class AdminResource {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
             user.setStorage(0l);
+            user.setRole("USER");
             userService.saveUser(user);
             return true;
         }
@@ -102,6 +107,28 @@ public class AdminResource {
 
         else {
             return ResponseEntity.ok(new ServerResponseDto(ResponseCase.INVALID_USER_ID_OR_PID));
+        }
+    }
+
+    @GetMapping("/getAllPlan")
+    public ResponseEntity<ServerResponseDto> getAllPlan(){
+        List<PlanEntity> planEntities = planRepository.findAll();
+        if(planEntities.size() == 0){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_PLAN_FOUND));
+        }
+        else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, planEntities));
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ServerResponseDto> search(@RequestParam String keyword){
+        List<UserEntity> userEntities = userRepository.search(keyword);
+        if (userEntities.size() == 0 ){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_USER_FOUND));
+        }
+        else {
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, userEntities));
         }
     }
 

@@ -12,12 +12,11 @@ public interface ResponseCase {
     ResponseStatus USER_OR_FILE_NOT_EXIST = new ResponseStatus(6, "USER OR FILE NOT EXIST");
     ResponseStatus ACCESS_CONTROL_EXIST = new ResponseStatus(7, "USER ALREADY HAVE PERMISSION TO ACCESS THIS FILE");
 
-    // patientInfo
-    ResponseStatus NOT_FOUND_PATIENT_INFO = new ResponseStatus(1405, "PATIENT INFO NOT FOUND");
-    ResponseStatus INVALID_PATIENT_INFO_PARAM = new ResponseStatus(5000, "invalid patient info param");
+    ResponseStatus NO_PLAN_FOUND = new ResponseStatus(8, "NO PLAN FOUND!");
+    ResponseStatus NO_RESULT_FOUND = new ResponseStatus(9, "NO RESULT FOUND");
 
     //login
-    ResponseStatus INVALID_WEB_LOGIN_PARAM = new ResponseStatus(1406, "Invalid web login param!");
+    ResponseStatus NO_USER_FOUND = new ResponseStatus(1406, "NO USER FOUND");
     ResponseStatus INVALID_WEB_PASSWORD = new ResponseStatus(1407, "Invalid web login password param!");
 
     //changePassword

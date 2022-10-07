@@ -12,6 +12,7 @@ import com.project.GGDriveClone.service.AccessControlService;
 import com.project.GGDriveClone.service.FileService;
 import com.project.GGDriveClone.service.UserService;
 import com.project.GGDriveClone.util.MediaTypeUtils;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -51,6 +52,15 @@ public class FileResource {
     @Autowired
     private AccessControlService accessControlService;
 
+    @GetMapping("/getUsername")
+    public String getUsername(@RequestParam Long uid){
+        UserEntity userEntity = userService.findUser(uid);
+        if (userEntity != null){
+            return userEntity.getName();
+        }
+        return "";
+    }
+
     @PostMapping("/createFolder")
     public String createFolder(@RequestBody String folderName) {
         return FILE_DIRECTORY + "/"+ folderName + "/";
@@ -68,7 +78,6 @@ public class FileResource {
         // Check file exits
         FileEntity fileEntity0 = fileService.findFile(file.getOriginalFilename());
         if(fileEntity0 != null){
-            System.out.println("DMMMM");
             message = "Filename existed!";
             return fileConvert.convertToFileDto(new FileEntity(), message);
         }
@@ -161,9 +170,20 @@ public class FileResource {
         fileService.moveToTrash(fileEntity);
     }
 
+    @PutMapping("/undoDelete")
+    public void undoDelete(@RequestParam Long oid) {
+        FileEntity fileEntity = fileService.findFile(oid);
+        if (fileEntity == null) {
+            System.out.println("Cannot find this file with oid: " + oid + "\n");
+            return;
+        }
+        fileService.undoDelete(fileEntity);
+    }
+
     @DeleteMapping("/completedDelete")
-    public void completedDelete(@RequestParam Long oid) {
-        fileService.completedDelete(oid);
+    public void completedDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @RequestParam Long oid) {
+        fileService.completedDelete(customUserDetails.getUserId(), oid);
     }
 
     @GetMapping("/getStorage")
@@ -194,5 +214,15 @@ public class FileResource {
     @GetMapping("/getStar")
     public List<FileEntity> getStarFile(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return fileService.findStarFile(customUserDetails.getUserId());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ServerResponseDto> search (@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                     @RequestParam String keyword){
+        List<FileEntity> fileEntities = fileService.search(customUserDetails.getUserId(), keyword);
+        if(fileEntities.size() == 0){
+            return ResponseEntity.ok(new ServerResponseDto(ResponseCase.NO_RESULT_FOUND));
+        }
+        return ResponseEntity.ok(new ServerResponseDto(ResponseCase.SUCCESS, fileEntities));
     }
 }
